@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile_Edit">
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="263dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayout_perfil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="false"
+                        android:layout_alignParentEnd="false"
+                        android:elevation="0dp"
+                        android:padding="10dp">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imageView_foto_perfil"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@mipmap/ic_user2"
+                            android:elevation="0dp"
+                            android:onClick="ButtonADDFotho"
+                            app:civ_border_color="#ffffff"
+                            app:civ_border_width="5dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.502"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar_foto"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="@color/cardview_light_background"
+                            android:elevation="7dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView_foto_perfil"
+                            app:layout_constraintEnd_toEndOf="@+id/imageView_foto_perfil"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/imageView_foto_perfil"
+                            app:layout_constraintTop_toTopOf="@+id/imageView_foto_perfil" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@mipmap/ic_face"
+                        android:backgroundTint="@color/cardview_dark_background" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardView5"
+                        android:layout_width="270dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="@color/fondo_blanco_gris"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toTopOf="@+id/cardView6"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:textColorHint="@color/cardview_dark_background">
+
+                            <EditText
+                                android:id="@+id/editText_nombre"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:background="@color/fondo_blanco_gris"
+                                android:gravity="fill_horizontal"
+                                android:hint="@string/nombre_completo"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textColorLink="@color/color_azul1"
+                                android:textSize="24sp"></EditText>
+                        </android.support.design.widget.TextInputLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@mipmap/ic_phone"
+                        android:backgroundTint="@color/cardview_dark_background" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardView6"
+                        android:layout_width="270dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="@color/fondo_blanco_gris"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="254dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:textColorHint="@color/cardview_dark_background">
+
+                            <EditText
+                                android:id="@+id/editText_telefono"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:background="@color/fondo_blanco_gris"
+                                android:hint="@string/numero_de_telefono"
+                                android:inputType="number"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textColorLink="@color/color_azul1"
+                                android:textSize="18sp"></EditText>
+                        </android.support.design.widget.TextInputLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/md_green_300"
+        android:elevation="0dp"
+        android:onClick="ButtonGuardar"
+        android:text="@string/guardar"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

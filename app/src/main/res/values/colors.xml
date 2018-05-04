@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="colorPrimary">#2ea2ff</color>
+
+    <color name="colorAccent">#5fb8ff</color>
+
+    <color name="colorPrimaryDark">#2ea2ff</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+
+
+    <color name="color_blaco">#ffffff</color>
+
+
+
+    <color name="color_verde">#4caf50</color>
+    <color name="color_azul1">#2471A3</color>
+    <color name="color_azul2">#A3E4D7</color>
+
+    <color name="color_rojo">#e53935</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="color_naranja">#e77a3b</color>
+    <color name="fondo_blanco_gris">#f5f5f5</color>
+
+
+    <color name="texto_principal">#777777</color>
+    <color name="texto_secundario">#878787</color>
+    <color name="texto_terciario">#a7a7a7</color>
+    <color name="maps_azul">#566573</color>
+
+    <!-- Color Categoria -->
+    <color name="color_kiosco">#993366</color>
+    <color name="color_almacen">#887959</color>
+    <color name="color_carniceria">#ff3333</color>
+    <color name="color_ferreteria">#6633cc</color>
+    <color name="color_heladeria">#ff6699</color>
+
+    <color name="color_panaderia">#cc6633</color>
+    <color name="color_pescaderia">#0099cc</color>
+    <color name="color_pizzeria">#ff9933</color>
+    <color name="color_verduleria">#339933</color>
+    <color name="texto_terciario2">#e0e0e0</color>
+</resources>

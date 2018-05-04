@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.opencliente.applic.opencliente">
+
+    <!-- permiso necesario para que la aplicación pueda “enterarse” de cuando arranca el sistema -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    //-Permiso para acceder a las fotos del dispositivo
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    //-Permiso para realizar llamados
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    /-acceso a estao de conexion
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity_Auth"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".interface_principal.MainActivity_interface_principal"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <!--
+              La clave API para las API basadas en Google Maps se define como un recurso de cadena.
+             (Ver el archivo "res / values ​​/ google_maps_api.xml").
+             Tenga en cuenta que la clave API está vinculada a la clave de cifrado utilizada para firmar el APK.
+             Necesita una clave de API diferente para cada clave de cifrado, incluida la clave de liberación que se utiliza para
+             Firme el APK para publicar.
+             Puede definir las claves para los objetivos de depuración y liberación en src / debug / y src / release /.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".interface_principal.navigation_drawe.perfil.Activity_Profile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".interface_principal.navigation_drawe.Chat.Chat_view"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".interface_principal.navigation_drawe.Chat.Chat_principal"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".interface_principal.navigation_drawe.informacion.informacion_open"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SplashScreean"
+            android:theme="@style/AppTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.ServiseNotify" />
+
+        <receiver
+            android:name=".service.BroadcastReceiverService"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".interface_principal.navigation_drawe.perfil.Activity_Profile_Edit"
+            android:windowSoftInputMode="adjustPan" />
+
+
+
+        <activity
+            android:name=".interface_principal.navigation_drawe.negocio.MainActivity_productos"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+    </application>
+
+</manifest>

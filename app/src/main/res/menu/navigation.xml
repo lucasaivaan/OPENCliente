@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@mipmap/ic_nav_business"
+        android:title="@string/tarjetas" />
+
+    <item
+        android:id="@+id/navigation_ofertas"
+        android:icon="@mipmap/ic_nav_ofertas"
+        android:title="@string/ofertas" />
+
+    <item
+        android:id="@+id/navigation_maps"
+        android:icon="@mipmap/ic_nav_maps"
+        android:title="@string/maps" />
+
+</menu>

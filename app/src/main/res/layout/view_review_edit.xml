@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reseña"
+        android:textAlignment="center"
+        android:textColor="@color/texto_principal"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/editText_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@color/cardview_light_background"
+        android:elevation="3dp"
+        android:hint="@string/Reseñas"
+        android:padding="15dp"
+        android:textColor="@color/cardview_dark_background" />
+    <Button
+        android:id="@+id/button3_actualizar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_verde"
+        android:text="@string/actualizar"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp" />
+
+</LinearLayout>

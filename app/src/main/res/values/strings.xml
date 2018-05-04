@@ -1,0 +1,236 @@
+<resources>
+    <string name="app_name">OPEN</string>
+    <string name="open_perfil">OPEN Perfil</string>
+    <string name="version">Versión 1.0</string>
+
+
+    <!--_____________________________________ BASE DE DATOS ___________________________________  -->
+    <string name="DB_APP">APP</string>
+    <string name="DB_NEGOCIOS">NEGOCIOS</string>
+    <string name="DB_INFORMACION">INFORMACION</string>
+
+    <string name="DB_CLIENTES">CLIENTES</string>
+    <string name="DB_PRODUCTOS">PRODUCTOS</string>
+
+    <string name="DB_CUENTAS">CUENTAS</string>
+    <string name="DB_GALERIA_FOTOS">GALERIA_FOTOS</string>
+    <string name="DB_HORARIOS">HORARIOS</string>
+    <string name="DB_RESEÑAS">RESEÑAS</string>
+    <string name="DB_SERVICIOS">SERVICIOS</string>
+    <string name="DB_OFERTAS">OFERTAS</string>
+
+
+    <string name="DB_CUENTA">CUENTA</string>
+
+    //Chat
+    <string name="DB_mensaje_nuevo">mensaje_nuevo</string>
+    <string name="DB_ultimo_mensaje">ultimo_mensaje</string>
+
+
+    //MENSAJE
+    <string name="DB_mensaje">mensaje</string>
+    <string name="DB_timestamp">timestamp</string>
+    <string name="DB_type_mensaje">type_mensaje</string>
+    <string name="DB_CHAT">CHAT</string>
+
+
+    //Perfil Cliente
+
+    <string name="DB_nombrecliente">nombrecliente</string>
+    <string name="DB_nombre">nombre</string>
+    <string name="DB_urlfotoPerfil">urlfotoPerfil</string>
+
+
+    //Perfil negocio
+    <string name="DB_categoria">categoria</string>
+    <string name="DB_color">color</string>
+    <string name="DB_nombre_negocio">nombre_negocio</string>
+    <string name="DB_descripcion">descripcion</string>
+    <string name="DB_telefono">telefono</string>
+    <string name="DB_sitio_web">sitio_web</string>
+    <string name="DB_id">id</string>
+    //perfil geolocalizacion
+    <string name="DB_pais">pais</string>
+    <string name="DB_direccion">direccion</string>
+    <string name="DB_codigo_postal">codigo_postal</string>
+    <string name="DB_provincia">provincia</string>
+    <string name="DB_ciudad">ciudad</string>
+
+    //perfil SORAGE
+    <string name="DBS_PERFIL">PERFIL</string>
+    <string name="DBS_fotoperfil">fotoperfil</string>
+
+
+    <!-- Navigation -->
+    <string name="sobre_open">Sobre Open</string>
+    <string name="compartir_app">Compartir app</string>
+
+
+    <string name="si">Si</string>
+
+    <!-- *Google -->
+    <string name="datos_gps_no_disponible">Datos GPS no esta disponible</string>
+    <string name="ubicacion_desactivada">Ubicación Desactivada</string>
+    <string name="ubicacion_no_disponible_info">Por favor active su ubicación para localizar negocios cercanos</string>
+    <string name="config_ubicacion">Configuración de ubicación</string>
+
+    <!-- Reseña -->
+    <string name="estrella_1">No me gustó en absoluto.</string>
+    <string name="estrella_2">no me gustó.</string>
+    <string name="estrella_3">Está bien.</string>
+    <string name="estrella_4">Me gustó.</string>
+    <string name="estrella_5">Me encantó.</string>
+
+
+    <string name="not_log_in">No se pudo iniciar sesión</string>
+    <string name="log_out">" Cerrar sesión"</string>
+    <string name="not_close_session">No se pudo cerrar sesión</string>
+    <string name="not_revoke">No se puede revocar el acceso</string>
+    <string name="not_firebase_auth">No se pudo autenticar con Firebase</string>
+    <string name="title_activity_maps_orifu">Map</string>
+    <string name="nombre_de_negocio">Nombre del Negocio</string>
+    <string name="pais_region">País/Región</string>
+    <string name="direccion">Dirección</string>
+    <string name="codigo_postal">Código postal</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="provincia">Provincia</string>
+    <string name="telefono_principal" translatable="false">Télefono principal</string>
+    <string name="categoria">Categoría</string>
+    <string name="sitio_web">Sitio Web</string>
+    <string name="continuar">Continuar</string>
+    <string name="cambiar_ubicacion">Cambiar Ubicación</string>
+    <string name="perfil">Perfil</string>
+    <string name="editar">Editar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="title_activity_main_interface_principal">MainActivity_interface_principal</string>
+    <string name="no_tienes_una_cuenta_negocio">No tienes una cuenta en este negocio</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps_principal">Map</string>
+    <string name="title_activity_main_content__interface_principal">
+        MainActivity_content_Interface_principal
+    </string>
+    <string name="title_home">Home</string>
+    <string name="ofertas">Ofertas</string>
+    <string name="maps">Maps</string>
+    <string name="tarjetas">Tarjetas</string>
+
+
+    <string name="confirma_eliminacion_negocio">confirma la eliminación</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aun_no_tienes_ninguna_tarjeta_negocio">Todavía no tienes tarjeta de ningun negocio</string>
+    <string name="no_hay_ofertas">nN</string>
+    <string name="buscador">Buscador</string>
+    <string name="buscar">Buscar</string>
+    <string name="nombre_del_negocio">nombre del negocio</string>
+    <string name="agregar_negocio">Agregar negocio</string>
+    <string name="no_tienes_ninguna_oferta">no tienes ninguna oferta</string>
+    <string name="servicios">servicios</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="nombre">nombre</string>
+    <string name="numero_de_telefono">Número de telefono (opcional)</string>
+    <string name="guardar">Guardar</string>
+    <string name="campo_nombre_vacio">Debes escribir tu nombre</string>
+    <string name="completar_perfil">Completar perfil</string>
+    <string name="cerrar_sesion">cerrar sesión</string>
+    <string name="informacion">Información</string>
+    <string name="contacto">Contacto</string>
+    <string name="tiendas">Tiendas</string>
+    <string name="chat">Chat</string>
+    <string name="escriba_un_mensaje">Escriba un mensaje</string>
+    <string name="enviar">Enviar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="vaciar_chat">Vaciar Chat</string>
+    <string name="agregar_foto_perfil">Agregar foto de perfil</string>
+    <string name="telefono_no_disponible">Número teléfono no está disponible</string>
+    <string name="sitio_web_no_disponible">Sitio web no está disponible</string>
+
+    <string name="se_actualizado_su_foto_de_perfil">Se actualizo su foto de perfil</string>
+    <string name="Para_agregar_un_negocio_debes_completar_tu_perfil">Para agregar un negocio a su lista, primero debe completar su perfil</string>
+    <string name="chat_negocios">Chat negocios</string>
+    <string name="tienes_nuevos_mensaje">Tienes nuevos mensajes sin leer</string>
+    <string name="actualizar_foto_de_perfil">Actualizar foto de perfil</string>
+    <string name="no_ahi_conexion_a_internet">No hay conexión a Internet</string>
+
+    <string name="title_activity_fullscreem__no_conexion_internet">Fullscreem_NoConexionInternet
+    </string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="horarios">Horarios</string>
+    <string name="cuenta">cuenta</string>
+    <string name="total">Total:</string>
+    <string name="tiene_un_pago_parcial_de">Tienes un pago parcial de:</string>
+    <string name="open_para_negocios">OPEN para negocios</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="actualizado">Actualizado</string>
+    <string name="elije_una_categoaria">Elige una categoría</string>
+
+
+    <string name="condiciones_servicio">Condiciones y servicio</string>
+    <string name="sobre_nosotros">Sobre nosotros</string>
+    <string name="iniciar_sesion_con_google">" Inicia sesión con Google"</string>
+    <string name="bienvenida">Bienvenido/a</string>
+    <string name="nombre_completo">Nombre completo</string>
+    <string name="ver_horarios">Ver horarios</string>
+    <string name="error_obtener_link_playstore">Error al obtener dirección de Play Store por favor compruebe su conexin a internet</string>
+
+
+    <!-- ________________________________  Service ic____________________________________________ -->
+
+    <!-- Sube -->
+    <string name="service_sube_titulo">SUBE</string>
+    <!-- Recarga movil -->
+    <string name="service_recarga_movil_titulo">Carga Virtual</string>
+    <!-- Pago Facil -->
+    <string name="service_pagofacil_titulo">Pago Facil</string>
+    <!-- Cobro Express -->
+    <string name="service_cobroexpress_titulo">Cobro Express</string>
+    <!-- Rapi Pago -->
+    <string name="service_rapipago_titulo">RapiPago</string>
+    <!-- DIRECTV Prepago -->
+    <string name="service_directvprepago_titulo">DIRECTV Prepago</string>
+    <!-- Impresion -->
+    <string name="service_impresion_titulo">Impresion</string>
+    <!-- Delivery -->
+    <string name="service_delivery_titulo">Delivery</string>
+    <!-- Delivery Pizza -->
+    <string name="service_deliverypizza_titulo">Delivery Pizza</string>
+
+    <!-- Wifi -->
+    <string name="service_wifi_titulo">Wifi</string>
+    <!-- Tarjeta de credito -->
+    <string name="service_tarjeta_credito">tarjeta de credito/debito</string>
+    <!-- 24-->
+    <string name="service_24">24</string>
+    <!-- Restaurant-->
+    <string name="service_restaurant">Restaurant</string>
+
+
+    <string name="esperando_ubicacion">Esperando ubicación</string>
+    <string name="no_tiene_fotos">No tiene fotos</string>
+    <string name="sin_descripcion">Ssin descripción</string>
+    <string name="fotos">Fotos</string>
+    <string name="sin_resultado">Sin resultados</string>
+    <string name="resultado">Resultados</string>
+    <string name="informacion_no_disponible">La Información no esta disponible</string>
+    <string name="no_ahi_horario_definido">No hay horario definido</string>
+    <string name="cargando">Cargando</string>
+    <string name="publicar">Publicar</string>
+    <string name="escribe_una_reseña">Escribe una reseña</string>
+    <string name="Reseñas">Reseñas</string>
+    <string name="reseña_not_sin_reseña">Sé el primero en calificar este negocio</string>
+    <string name="buscar_negocio">Buscar negocio</string>
+    <string name="tus_tarjetas">Tus tarjetas</string>
+    <string name="info_card_business">Lleva tu negocio favorito en tu bolsillo donde quieras que vallas, enterate de sus ofertas, servicios y mas</string>
+    <string name="info_ofertas">Oferta que buscás, oferta que pescás</string>
+    <string name="reseña">Reseña</string>
+    <string name="ver_productos">Ver productos</string>
+    <!-- _______________________________________________________________________________________ -->
+
+
+</resources>

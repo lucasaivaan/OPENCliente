@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> <!-- Base application theme is the default theme. -->
+
+    <style name="Theme" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/color_degradado_azul</item>
+    </style> </resources>

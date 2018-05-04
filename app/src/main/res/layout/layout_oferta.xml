@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/img_fondo_cuenta"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/color_verde"
+        app:cardElevation="7dp">
+
+        <TextView
+            android:id="@+id/textView_ofertas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/ofertas"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="24sp" />
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_oferta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
