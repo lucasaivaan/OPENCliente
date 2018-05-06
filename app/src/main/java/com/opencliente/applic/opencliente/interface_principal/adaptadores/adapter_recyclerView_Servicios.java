@@ -1,6 +1,7 @@
 package com.opencliente.applic.opencliente.interface_principal.adaptadores;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.opencliente.applic.opencliente.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by lucas on 23/10/2017.
@@ -40,20 +44,28 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
     @Override
     public void onBindViewHolder(homeViwHolder holder, int position) {
         adapter_servicios_negocio ADP= pases.get(position);
+        // Titulo
+        holder.dato1.setText(ADP.getTitulo());
 
-        try{
-            holder.dato1.setText(ADP.getTitulo());
+        // Descripcion
+        if(!ADP.getDescripcion().equals("")){
+            holder.dato2.setText(ADP.getDescripcion());
+        }else{  holder.dato2.setVisibility(View.GONE); }
 
-            // Descripción
-            if(ADP.getDescripcion().equals("")){
-                holder.dato2.setVisibility(View.GONE);
-            }else{
-                holder.dato2.setText(ADP.getDescripcion());
-            }
+        // Imagen
+        if(!ADP.getUrl_imagen().equals("default")){
+            // Carga la imagen de perfil
+            Glide.clear(holder.circleImageView);
+            Context context=holder.circleImageView.getContext();
+            Glide.with(context)
+                    .load(ADP.getUrl_imagen())
+                    .fitCenter()
+                    .centerCrop()
+                    .into(holder.circleImageView);
+        }else{
+            Glide.clear(holder.circleImageView);
+        }
 
-            holder.ic_service.setImageDrawable(ADP.getIc_servico());
-
-        }catch (Exception ex){}
     }
     @Override
     public int getItemCount() {
@@ -74,14 +86,15 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         TextView dato1,dato2;
-        ImageView ic_service;
+        CircleImageView circleImageView;
+
 
         public homeViwHolder(View itemView) {
             super(itemView);
 
             dato1=(TextView) itemView.findViewById(R.id.textView_nombre);
             dato2=(TextView) itemView.findViewById(R.id.textView_info);
-            ic_service=(ImageView) itemView.findViewById(R.id.ic_service);
+            circleImageView=(CircleImageView) itemView.findViewById(R.id.service_image);
 
         }}
 }
