@@ -10,47 +10,23 @@ public class adapter_servicios_negocio {
     public adapter_servicios_negocio() {
     }
 
-    String titulo;
-    String descripcion;
-    Drawable ic_servico;
-    String ic_name;
 
-
-    public String getIc_name() {
-        return ic_name;
-    }
-
-    public void setIc_name(String ic_name) {
-        this.ic_name = ic_name;
-    }
+    private  String id;
+    private String titulo;
+    private String descripcion;
+    private String url_imagen="default";
 
 
 
-    public Drawable getIc_servico() {
-        return ic_servico;
-    }
+    public String getId() { return id; }
+    public String getTitulo() { return titulo; }
+    public String getDescripcion() { return descripcion; }
+    public String getUrl_imagen() { return url_imagen; }
 
-    public void setIc_servico(Drawable ic_servico) {
-        this.ic_servico = ic_servico;
-    }
-
-
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public void setId(String id) { this.id = id; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setUrl_imagen(String url_imagen) { this.url_imagen = url_imagen; }
 
 
 
