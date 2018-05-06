@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.opencliente.applic.opencliente.R;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
 
 import java.util.List;
@@ -72,9 +73,9 @@ public class adapter_recyclerView_Chat_principal extends RecyclerView.Adapter<ad
                     // Imagen del negocio
                     Context context = holder.circleImageView_perfil.getContext();
                     if (adapter_perfilNegocio.getImagen_perfil().equals("default")) {
-                        //Referencia de Drawale mediante string
 
-                        int id = context.getResources().getIdentifier("logo_"+adapter_perfilNegocio.getCategoria(), "mipmap", context.getPackageName());
+                        //Referencia de Drawale mediante string
+                        int id= icono.getIconLocationCategoria(adapter_perfilNegocio.getCategoria(),context);
                         holder.circleImageView_perfil.setImageResource(id);
 
                     }else{

@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 
 import java.util.List;
 
@@ -78,9 +79,8 @@ public class adapter_recyclerView_Tarjetas extends RecyclerView.Adapter<adapter_
                         // Imagen de perfil del negocio
                         if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
-                            String imgID=adapterProfileNegocio.getCategoria();//String categoria id del negocio
-                            int id_icon = context.getResources().getIdentifier("logo_"+imgID, "mipmap",context.getPackageName());//Referencia icono mediante string
-                            adapterProfileNegocio.setIcon(context.getResources().getDrawable(id_icon));//Asigna el icono correspondiente del negocio
+                            int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
+                            adapterProfileNegocio.setIcon(context.getResources().getDrawable(id));//Asigna el icono correspondiente del negocio
                             holder.dato3.setImageDrawable(adapterProfileNegocio.getIcon());
 
                         }else{

@@ -35,7 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.MainActivity_interface_principal;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.adaptador.AdapterMensajes;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.adaptador.Mensaje;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.adaptador.MensajeRecibir;
@@ -81,7 +83,7 @@ public class Chat_view extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_view);
-        setTitle(R.string.chat);
+        setTitle("");
 
         //-------------------------------- Toolbar -------------------------------------------------
         // (Barra de herramientas)
@@ -127,14 +129,14 @@ public class Chat_view extends AppCompatActivity {
                         //--Carga el nombre Negocio
                         textViewNombreNegocio.setText(aPerfilNegocio.getNombre_negocio());
 
-                        int id = getResources().getIdentifier("logo_"+aPerfilNegocio.getCategoria(), "mipmap",getPackageName());
+                        int id= icono.getIconLogoCategoria(aPerfilNegocio.getCategoria(),Chat_view.this);
                         fotoPerfil.setImageResource(id);
 
                         //Imagen del negocio
                         if(aPerfilNegocio.getImagen_perfil().equals("default")){
                             // icono
-                            int id_drawable = getResources().getIdentifier("logo_"+aPerfilNegocio.getCategoria(), "mipmap", getPackageName());
-                            fotoPerfil.setBackgroundResource(id_drawable);
+                            int id_icon= icono.getIconLogoCategoria(aPerfilNegocio.getCategoria(),Chat_view.this);
+                            fotoPerfil.setBackgroundResource(id_icon);
                         }else{
                             //-Carga la imagen de perfil
                             Glide.with(Chat_view.this).load(aPerfilNegocio.getImagen_perfil()).into(fotoPerfil);

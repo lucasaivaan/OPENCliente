@@ -78,6 +78,7 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_recyclerView_horario;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_review;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_servicios_negocio;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch;
@@ -418,7 +419,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                             if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
-                                int id = getResources().getIdentifier("logo_"+ adapterProfileNegocio.getCategoria(), "mipmap", getPackageName());
+                                int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),MainActivity_lauch_Store.this);
                                 imageView_iconStrore.setImageDrawable(getResources().getDrawable(id)); // nombre del negocio
                                 textView_name_store.setText(adapterProfileNegocio.getNombre_negocio()); // icono
                                 //appBarLayoutL.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color appBar
@@ -487,7 +488,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                                     //Referencia drawable mediante un string
                                     Context context = imageView_iconStrore.getContext();
-                                    int id = context.getResources().getIdentifier("logo_"+ adapterProfileNegocio.getCategoria(), "mipmap", context.getPackageName());
+                                    int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
                                     imageView_iconStrore.setImageDrawable(getResources().getDrawable(id));
                                     textView_name_store.setText(adapterProfileNegocio.getNombre_negocio());
                                     //lTolbar.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color toolBAr
@@ -1529,9 +1530,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
 
                     ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                    String valueIdBusiness = ContructorItemRecycleview.getCategoria();
-
-                    int id = getResources().getIdentifier("loc_"+valueIdBusiness, "mipmap", getPackageName());
+                    int id= icono.getIconLocationCategoria(ContructorItemRecycleview.getCategoria(),MainActivity_lauch_Store.this);
                     BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
                     //---Crea los Makers
                     mMap.addMarker(new MarkerOptions().position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude()))).setIcon(icon);

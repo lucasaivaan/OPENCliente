@@ -92,6 +92,7 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_recyclerView_Tarjetas;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_recyclerView_Ofertas;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.OnSwipeTouchListener;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_principal;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.informacion.informacion_open;
@@ -965,9 +966,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 adapter_profile_negocio ContructorItemRecycleview=documentSnapshot.toObject(adapter_profile_negocio.class);
 
                                     ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                                    String valueIdBusiness=ContructorItemRecycleview.getCategoria();
-
-                                    int id = getResources().getIdentifier("loc_"+valueIdBusiness, "mipmap", getPackageName()); //Reference mediante un string
+                                    int id= icono.getIconLocationCategoria(ContructorItemRecycleview.getCategoria(),MainActivity_interface_principal.this);
                                     BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id); //convert bitmap
 
 

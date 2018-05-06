@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
             Context context =  holder.getFotoMensajePerfil1_1().getContext();
 
             if(listMensaje.get(position).getUrlfotoPerfil().equals("default")){
-                int id = context.getResources().getIdentifier("logo_"+listMensaje.get(position).getCategoria(), "mipmap", context.getPackageName());
+                int id= icono.getIconLogoCategoria(listMensaje.get(position).getCategoria(),context);
                 holder.getFotoMensajePerfil2_2().setImageResource(id);
 
             }else{
