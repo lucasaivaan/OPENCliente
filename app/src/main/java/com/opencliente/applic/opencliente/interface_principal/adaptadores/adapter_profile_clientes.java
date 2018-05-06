@@ -13,6 +13,13 @@ public class adapter_profile_clientes {
     private String urlfotoPerfil;
     private Boolean nuevo_mensaje;
     private Double numreseñas;
+    private String cardlayout="default";
+
+
+
+    public String getCardlayout() { return cardlayout; }
+
+    public void setCardlayout(String cardlayout) { this.cardlayout = cardlayout; }
 
     public String getUrlfotoPerfil() {return urlfotoPerfil;}
 
