@@ -532,7 +532,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
     public void Servicios(String id){
 
-        CollectionReference collecRef=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(id).collection(  getString(R.string.DB_SERVICIOS)  );
+        CollectionReference collecRef=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document( id ).collection(  getString(R.string.DB_SERVICIOS)  );
         collecRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -543,15 +543,10 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     adapter_servicios_negocio ContructorItemRecycleviewServicios = snapshot3.toObject(adapter_servicios_negocio.class);
 
                     //Asigna el icono al adaptador del servicio
-                    if(ContructorItemRecycleviewServicios.getIc_name()!=null){
+                    if(ContructorItemRecycleviewServicios.getTitulo()!=null){
                         cardViewService.setVisibility(View.VISIBLE);
-                        ContructorItemRecycleviewServicios.setIc_servico(LoadIconService(ContructorItemRecycleviewServicios.getIc_name()));
-                        adapterProfileNegociosServicios.add(ContructorItemRecycleviewServicios);
-                    }else{
-                        ContructorItemRecycleviewServicios.setIc_servico(LoadIconService("default"));
                         adapterProfileNegociosServicios.add(ContructorItemRecycleviewServicios);
                     }
-
                 }
                 adapterRecyclerViewServicios.notifyDataSetChanged();
 
@@ -633,42 +628,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
 
     }
-    public Drawable LoadIconService(String titulo) {
 
-
-        if (titulo.equals( getResources().getString(R.string.service_sube_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_sube);
-        } else if (titulo.equals( getResources().getString(R.string.service_recarga_movil_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_carga_movil);
-        } else if (titulo.equals( getResources().getString(R.string.service_pagofacil_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_pagofacil);
-        } else if (titulo.equals( getResources().getString(R.string.service_cobroexpress_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_cobro_express);
-        } else if (titulo.equals( getResources().getString(R.string.service_rapipago_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_rapipago);
-        } else if (titulo.equals( getResources().getString(R.string.service_directvprepago_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_directv);
-        } else if (titulo.equals( getResources().getString(R.string.service_impresion_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_impresion);
-        } else if (titulo.equals( getResources().getString(R.string.service_delivery_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_delivery);
-        } else if (titulo.equals( getResources().getString(R.string.service_deliverypizza_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_deliverypizza);
-        }else if (titulo.equals( getResources().getString(R.string.service_wifi_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_wifi);
-        }  else if (titulo.equals( getResources().getString(R.string.service_restaurant))) {
-            return getResources().getDrawable(R.mipmap.ic_service_restaurant);
-        } else if (titulo.equals( getResources().getString(R.string.service_24))) {
-            return getResources().getDrawable(R.mipmap.ic_service_24);
-        } else if (titulo.equals( getResources().getString(R.string.service_wifi_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_wifi);
-        } else if (titulo.equals( getResources().getString(R.string.service_tarjeta_credito))) {
-            return getResources().getDrawable(R.mipmap.ic_service_tarjeta_credito);
-        }else {
-            return getResources().getDrawable(R.mipmap.ic_service_default);
-        }
-
-    }
 
     /////////////////////////////////// Load Galery photo //////////////////////////////////////////
     public void LoadButtonGaleryPhoto(final String id){
