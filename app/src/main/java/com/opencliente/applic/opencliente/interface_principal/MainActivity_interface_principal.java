@@ -31,6 +31,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -290,13 +291,23 @@ public class MainActivity_interface_principal extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch (id){
+                switch (id) {
                     case R.id.navigation_home:
                         include_home.setVisibility(View.VISIBLE);
                         include_ofertas.setVisibility(View.GONE);
                         include_maps.setVisibility(View.GONE);
                         toolbar_cardview_seach.setVisibility(View.VISIBLE);
-                        tToolbsrTituloTarjetas.setText(getResources().getString(R.string.tus_tarjetas));
+
+
+                        if(  !tToolbsrTituloTarjetas.getText().toString().equals(getResources().getString(R.string.tus_tarjetas)) ){
+
+                            // Titulo Toolbar
+                            tToolbsrTituloTarjetas.setText(getResources().getString(R.string.tus_tarjetas));
+
+                            // Carga la lista de tarjetas
+                            Carga_Recyclerview_tarjetas();
+
+                        }
 
                         break;
                     case R.id.navigation_ofertas:
@@ -861,7 +872,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 adapter_profile_negocio ContructorItemRecycleview=doc.toObject(adapter_profile_negocio.class);
 
                                 //--- Condicional de de metodo de busqueda
-                                if(seach(ContructorItemRecycleview.getNombre_negocio(),stringValueBuscador)){
+                                if(seach(ContructorItemRecycleview.getNombre_negocio(),stringValueBuscador) || seach(ContructorItemRecycleview.getCategoria(),stringValueBuscador)){
 
                                     textViewNotSinResult.setVisibility(View.GONE);
                                     progressBarSeach.setVisibility(View.GONE);
@@ -898,6 +909,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
     //---Algoritmo de busqueda
     private boolean seach(String value,String valueSeach){
+
         boolean resultado = false;
         if(value != null){
             //Convierte los valores String en minuscula para facilitar la busqueda
@@ -1109,7 +1121,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     textView.setText(addresses.get(0).getLocality()); // localcidad
                     LocationCountryGps=addresses.get(0).getLocality();
 
-                    LocationCountryGps=addresses.get(0).getAdminArea(); // provincia
+                    LocationCountryGps=addresses.get(0).getAdminArea().toUpperCase(); // provincia
                     editTextSeach.setHint(getResources().getString(R.string.buscar)+" en "+LocationCountryGps);
 
                     //Carga los marker de la zona de la ubicación

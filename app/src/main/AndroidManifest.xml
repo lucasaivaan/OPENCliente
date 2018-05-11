@@ -97,13 +97,11 @@
         <activity
             android:name=".interface_principal.navigation_drawe.perfil.Activity_Profile_Edit"
             android:windowSoftInputMode="adjustPan" />
-
-
-
         <activity
             android:name=".interface_principal.navigation_drawe.negocio.MainActivity_productos"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".interface_principal.navigation_drawe.negocio.galeria_fotos"></activity>
     </application>
 
 </manifest>

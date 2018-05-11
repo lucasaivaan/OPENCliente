@@ -61,6 +61,7 @@ public class Activity_Profile extends AppCompatActivity {
     // CARD perfil
     public TextView editTextNombre;
     public  TextView editTextTelefono;
+    private LinearLayout layoutTelefono;
     private ProgressBar progressBar_foto;
     private String sCardLayout;
     private int iPuntos=500;
@@ -100,6 +101,7 @@ public class Activity_Profile extends AppCompatActivity {
         //---Reference
         editTextNombre =(TextView) findViewById(R.id.textView_name);
         editTextTelefono=(TextView) findViewById(R.id.textView_phone);
+        layoutTelefono=(LinearLayout) findViewById(R.id.lineallayout_telefono);
         progressBar_foto=(ProgressBar) findViewById(R.id.progressBar_foto);
         progressBar_foto.setVisibility(View.GONE);
 
@@ -358,7 +360,13 @@ public class Activity_Profile extends AppCompatActivity {
 
                         //---Cargamos los datos a los texviewa
                         editTextNombre.setText(aPerfilUsuario.getNombre());
-                        editTextTelefono.setText(aPerfilUsuario.getTelefono());
+
+                        if(aPerfilUsuario.getTelefono().equals("")){
+                            editTextTelefono.setText( getResources().getString(R.string.telefono_no_definido) );
+                        }else{
+                            editTextTelefono.setText(aPerfilUsuario.getTelefono());
+                        }
+
 
                         //stilo de tarjeta
                         Context context = layout_Cardstylo.getContext();

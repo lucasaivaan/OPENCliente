@@ -29,6 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -79,6 +80,7 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_review;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_servicios_negocio;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adaptador_foto;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch;
@@ -143,6 +145,13 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
     private ImageView imageViewFoto3;
     private ImageView imageViewFoto4;
     private ImageView imageViewFoto5;
+    private CardView cardViewFoto1;
+    private CardView cardViewFoto2;
+    private CardView cardViewFoto3;
+    private CardView cardViewFoto4;
+    private CardView cardViewFoto5;
+
+
     private DatabaseReference firebaseDatabaseGalery;
 
     private LinearLayout Lineallayout_galery;
@@ -278,6 +287,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         imageViewFoto3=(ImageView) findViewById(R.id.button_galary_3);
         imageViewFoto4=(ImageView) findViewById(R.id.button_galary_4);
         imageViewFoto5=(ImageView) findViewById(R.id.button_galary_5);
+        cardViewFoto1=(CardView) findViewById(R.id.card_foto1);
+        cardViewFoto2=(CardView) findViewById(R.id.card_foto2);
+        cardViewFoto3=(CardView) findViewById(R.id.card_foto3);
+        cardViewFoto4=(CardView) findViewById(R.id.card_foto4);
+        cardViewFoto5=(CardView) findViewById(R.id.card_foto5);
 
         Lineallayout_galery=(LinearLayout) findViewById(R.id.Lineallayout_galery);
         textView_galery_noFoto=(TextView) findViewById(R.id.textView_galery_noFoto);
@@ -407,7 +421,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
 
                             //Carga los datos
-                            LoadBusinessMakerMaps();
+                            LoadBusinessMakerMaps(IdBusiness);
                             Servicios(IdBusiness);
                             Ofertas(IdBusiness);
                             LoadImageGalery(IdBusiness);
@@ -416,21 +430,21 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                             // ToolBar
                             //imagen del negocio
-
                             if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
                                 int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),MainActivity_lauch_Store.this);
-                                imageView_iconStrore.setImageDrawable(getResources().getDrawable(id)); // nombre del negocio
-                                textView_name_store.setText(adapterProfileNegocio.getNombre_negocio()); // icono
+                                imageView_iconStrore.setImageDrawable(getResources().getDrawable(id)); // icono
+
                                 //appBarLayoutL.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color appBar
                                 //lTolbar.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color toolBAr
 
                             }else{
                                 //-Carga la imagen de perfil
                                 Glide.with(MainActivity_lauch_Store.this).load(adapterProfileNegocio.getImagen_perfil()).into(imageView_iconStrore);
+                                }
 
-
-                            }
+                                //nombre
+                            textView_name_store.setText(adapterProfileNegocio.getNombre_negocio()); //nombre del negocio
 
                             //profile
                             textViewPais.setText(adapterProfileNegocio.getPais());
@@ -483,7 +497,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                                     Ofertas(IdBusiness);
                                     LoadImageGalery(IdBusiness);
                                     LoadReseñas(IdBusiness);
-                                    LoadBusinessMakerMaps();
+                                    LoadBusinessMakerMaps(IdBusiness);
                                     notificacionMensajeNuevo(IdBusiness);
 
                                     //Referencia drawable mediante un string
@@ -644,7 +658,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -661,7 +680,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -676,7 +699,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -691,7 +718,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id"));
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -706,7 +737,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -720,7 +755,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
 
     }
-    public void ViewImagenGalery(String uri){
+    public void ViewImagenGalery(String sUrl,String sComentario){
         //Crear AlertDialog Hors
         LayoutInflater inflater = getLayoutInflater();
         View dialoglayout = inflater.inflate(R.layout.view_galery_photo, null);
@@ -729,15 +764,32 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         alertDialogHors=builder.show();
 
         ImageView imageViewFoto=(ImageView) dialoglayout.findViewById(R.id.imageView_galery_foto);
+        final TextView textView_Comentario =(TextView) dialoglayout.findViewById(R.id.textView_comentario);
+        ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
 
+        // Condiciones
+        if(sComentario.equals("")){
+            textView_Comentario.setVisibility(View.GONE);
+        }else{
+            textView_Comentario.setText(sComentario);
+        }
 
         try{
             Glide.with(MainActivity_lauch_Store.this)
-                    .load(uri)
+                    .load(sUrl)
                     .fitCenter()
                     .centerCrop()
                     .into(imageViewFoto);
         }catch (Exception ex){}
+
+        imageView_Cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Cierra la vista
+                alertDialogHors.dismiss();
+            }
+        });
     }
     public void LoadImageGalery(final String id){
 
@@ -755,13 +807,13 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     imageViewFoto1.setVisibility(View.VISIBLE);
                     try{
                         Glide.with(MainActivity_lauch_Store.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto1);
                     }catch (Exception ex){}
                 }else{
-                    imageViewFoto1.setVisibility(View.GONE);
+                    cardViewFoto1.setVisibility(View.GONE);
                 }
 
             }});
@@ -778,12 +830,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                     try{
                         Glide.with(MainActivity_lauch_Store.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto2);
                     }catch (Exception ex){}
-                }else{imageViewFoto2.setVisibility(View.GONE);}
+                }else{cardViewFoto2.setVisibility(View.GONE);}
 
             }});
 
@@ -798,12 +850,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     imageViewFoto3.setVisibility(View.VISIBLE);
                     try{
                         Glide.with(MainActivity_lauch_Store.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto3);
                     }catch (Exception ex){}
-                }else{imageViewFoto3.setVisibility(View.GONE);}
+                }else{cardViewFoto3.setVisibility(View.GONE);}
 
             }});
 
@@ -818,12 +870,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     imageViewFoto4.setVisibility(View.VISIBLE);
                     try{
                         Glide.with(MainActivity_lauch_Store.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto4);
                     }catch (Exception ex){}
-                }else{imageViewFoto4.setVisibility(View.GONE);}
+                }else{cardViewFoto4.setVisibility(View.GONE);}
 
             }});
 
@@ -838,12 +890,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     imageViewFoto5.setVisibility(View.VISIBLE);
                     try{
                         Glide.with(MainActivity_lauch_Store.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto5);
                     }catch (Exception ex){}
-                }else{imageViewFoto5.setVisibility(View.GONE);}
+                }else{cardViewFoto5.setVisibility(View.GONE);}
 
             }});
 
@@ -1439,6 +1491,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         startActivity(Lanzador1);
 
     }
+    public void Button_GaleriaFotos(View view){
+        //--.lanzadador Activity
+        Intent intent = new Intent (MainActivity_lauch_Store.this,galeria_fotos.class);
+        intent.putExtra("ID_NEGOCIO", IdBusiness);
+        startActivityForResult(intent, 0);
+    }
 
     /////////////////////////////////// elimina Colleccion /////////////////////////////////////////
     /**
@@ -1512,12 +1570,12 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         mMap.addMarker(new MarkerOptions().position(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        LoadBusinessMakerMaps();
+        //LoadBusinessMakerMaps();
     }
 
-    public void LoadBusinessMakerMaps() {
+    public void LoadBusinessMakerMaps(String ID_NEGOCIOS) {
 
-        DocumentReference docRef = db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(IdBusiness);
+        DocumentReference docRef = db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIOS);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
