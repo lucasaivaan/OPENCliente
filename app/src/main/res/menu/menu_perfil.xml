@@ -8,4 +8,10 @@
         android:title="@string/editar"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_eliminar_cuenta"
+        android:orderInCategory="100"
+        android:title="@string/eliminar_cuenta"
+        app:showAsAction="never" />
+
 </menu>

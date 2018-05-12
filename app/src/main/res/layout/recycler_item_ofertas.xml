@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="3dp"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -11,80 +11,65 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="80dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView_imageProducto"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@color/color_verde"
-            android:visibility="visible"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:onClick="ButtonADDFothoService"
+            android:src="@drawable/ic_launcher_background"
             app:civ_border_color="#f5f5f5"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
             app:layout_constraintStart_toEndOf="@+id/imageView_imageProducto"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:orientation="vertical"
+            <TextView
+                android:id="@+id/textView_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/titulo"
+                android:textAllCaps="true"
+                android:textColor="@color/texto_principal"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView_decripcion"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <TextView
+                android:id="@+id/textView_decripcion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/descripcion"
+                android:textColor="@color/texto_secundario"
+                android:textSize="14sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/textView_titulo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:text="@string/nombre"
-                    android:textAllCaps="true"
-                    android:textColor="@color/texto_principal"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/scrollView3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView_decripcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/DB_descripcion"
-                    android:textColor="@color/texto_secundario"
-                    android:textSize="14sp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </LinearLayout>
-
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_titulo" />
+        </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="80dp"
             android:background="@mipmap/img_etiqueta_oferta"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,8 +80,7 @@
                 android:layout_width="20dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
                 android:fontFamily="monospace"
                 android:gravity="right"
                 android:text="$"
@@ -113,13 +97,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:gravity="right"
-                android:text="50"
+                android:text="250"
                 android:textAllCaps="false"
                 android:textColor="@color/cardview_light_background"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,5 +111,4 @@
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
-
 </android.support.v7.widget.CardView>

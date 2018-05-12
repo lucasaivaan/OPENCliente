@@ -1,10 +1,14 @@
 package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -18,32 +22,56 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.opencliente.applic.opencliente.MainActivity_Auth;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.MainActivity_interface_principal;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_clientes;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store;
+import com.opencliente.applic.opencliente.service.ServiseNotify;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Activity_Profile extends AppCompatActivity {
+public class Activity_Profile extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     //------------------------ Cloud Firestore -----------------------------------------------------
     //-- Acceso a una instancia de Cloud Firestore desde la actividad
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseFirestore dbProfile = FirebaseFirestore.getInstance();
+    private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(2, 4,
+            60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     //--------------------- Add Foto ---------------------------------------------------------------
     //-Storage
@@ -53,9 +81,12 @@ public class Activity_Profile extends AppCompatActivity {
 
     private Uri urlDescargarFoto;
 
-    //--------------------- Firebase AUTH ----------------------------------------------------------
+    //--------------------- Firebase  ----------------------------------------------------------
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //datos usuaio actual
-
+    private FirebaseStorage firebaseStorage=FirebaseStorage.getInstance();
+    //-------- signOut
+    private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+    private GoogleApiClient googleApiClient;
 
 
     // CARD perfil
@@ -93,6 +124,18 @@ public class Activity_Profile extends AppCompatActivity {
 
         //---habilita button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        ///////////////////////////////////// signOut //////////////////////////////////////////////
+        //----Authentication Google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
         ///////////////////// ADD PHOTO ////////////////////////////////////////////////////////////
         mStorage= FirebaseStorage.getInstance().getReference();
@@ -256,22 +299,91 @@ public class Activity_Profile extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_editar) {
-
-            //---Lanzador de activity Auth
-            Intent Lanzador1 = new Intent(Activity_Profile.this, Activity_Profile_Edit.class);
-            startActivity(Lanzador1);
-            finish();
-
-            return true;
-        }
-        //-Button retroceso
         switch (item.getItemId()) {
             case android.R.id.home:
+                //-Button retroceso
                 finish();
+                return true;
+
+            case R.id.action_editar:
+
+
+                //---Lanzador de activity Auth
+                Intent Lanzador1 = new Intent(Activity_Profile.this, Activity_Profile_Edit.class);
+                startActivity(Lanzador1);
+                finish();
+
+                return true;
+
+
+            case  R.id.action_eliminar_cuenta:
+
+                new AlertDialog.Builder(Activity_Profile.this)
+                        .setIcon(R.mipmap.ic_launcher)
+                        //.setTitle(R.string.pregunta_eliminar_negocio_de_lista)
+                        .setMessage(R.string.confirma_eliminacion_cuenta)
+                        .setPositiveButton(R.string.si, null)
+                        .setNegativeButton(R.string.cancelar, null)
+                        .setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+
+                                // Storage
+                                StorageReference storageReferenceGalery= FirebaseStorage.getInstance().getReference();
+                                StorageReference  storageReference= storageReferenceGalery.child(getString(R.string.DB_CLIENTES)).child( firebaseUser.getUid() ).child(getString(R.string.DBS_PERFIL)).child( getResources().getString(R.string.DBS_fotoperfil) );
+                                storageReference.delete();
+
+                                //Firestore
+                                CollectionReference collectionReference=db.collection(getResources().getString(R.string.DB_CLIENTES)  ).document( firebaseUser.getUid()  ).collection(  getResources().getString(R.string.DB_NEGOCIOS)  );
+                                deleteCollection(collectionReference, 100, EXECUTOR);
+                                DocumentReference documentReference=db.collection(getResources().getString(R.string.DB_CLIENTES)).document(firebaseUser.getUid());
+                                documentReference.delete();
+
+
+
+                                ///////////////////////////////// Cerrar Sesion //////////////////////////////////////////////
+                                firebaseAuth.signOut();
+                                Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+                                    @Override
+                                    public void onResult(@NonNull Status status) {
+                                        if (status.isSuccess()) {
+
+                                            stopService(new Intent(Activity_Profile.this,ServiseNotify.class));
+
+                                            //---Lanzador de activity Auth
+                                            Intent intent = new Intent(Activity_Profile.this, MainActivity_Auth.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), R.string.not_close_session, Toast.LENGTH_SHORT).show();
+
+                                            stopService(new Intent(Activity_Profile.this,ServiseNotify.class));
+
+                                            //---Lanzador de activity Auth
+                                            Intent intent = new Intent(Activity_Profile.this, MainActivity_Auth.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+
+                                        }}});
+
+
+
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {}
+                        }).show();
+
                 return true;
         }
 
@@ -392,7 +504,59 @@ public class Activity_Profile extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) { }
+    /**
+     * Delete all documents in a collection. Uses an Executor to perform work on a background
+     * thread. This does *not* automatically discover and delete subcollections.
+     */
+    private Task<Void> deleteCollection(final CollectionReference collection, final int batchSize, Executor executor) {
 
+        // Perform the delete operation on the provided Executor, which allows us to use
+        // simpler synchronous logic without blocking the main thread.
+        return Tasks.call(executor, new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                // Get the first batch of documents in the collection
+                Query query = collection.orderBy(FieldPath.documentId()).limit(batchSize);
 
+                // Get a list of deleted documents
+                List<DocumentSnapshot> deleted = deleteQueryBatch(query);
+
+                // While the deleted documents in the last batch indicate that there
+                // may still be more documents in the collection, page down to the
+                // next batch and delete again
+                while (deleted.size() >= batchSize) {
+                    // Move the query cursor to start after the last doc in the batch
+                    DocumentSnapshot last = deleted.get(deleted.size() - 1);
+                    query = collection.orderBy(FieldPath.documentId())
+                            .startAfter(last.getId())
+                            .limit(batchSize);
+
+                    deleted = deleteQueryBatch(query);
+                }
+
+                return null;
+            }
+        });
+
+    }
+
+    /**
+     * Delete all results from a query in a single WriteBatch. Must be run on a worker thread
+     * to avoid blocking/crashing the main thread.
+     */
+    @WorkerThread
+    private List<DocumentSnapshot> deleteQueryBatch(final Query query) throws Exception {
+        QuerySnapshot querySnapshot = Tasks.await(query.get());
+
+        WriteBatch batch = query.getFirestore().batch();
+        for (DocumentSnapshot snapshot : querySnapshot) {
+            batch.delete(snapshot.getReference());
+        }
+        Tasks.await(batch.commit());
+
+        return querySnapshot.getDocuments();
+    }
 
 }

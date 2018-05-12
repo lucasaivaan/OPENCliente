@@ -84,6 +84,7 @@ import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.n
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile_Edit;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -1237,8 +1238,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                 .setMessage(R.string.confirma_eliminacion_negocio)
                 .setPositiveButton(R.string.si, null)
                 .setNegativeButton(R.string.cancelar, null)
-                .setPositiveButton(R.string.si, new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
@@ -1281,6 +1281,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
     }
     public void ButtonAgregarNegocio(View view) {
 
+
         //DATA BASE
         DocumentReference docPerfil=db.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid());
         docPerfil.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -1290,32 +1291,48 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                     adapterProfileCliente=documentSnapshot.toObject(adapter_profile_clientes.class);
 
-                    //DB Negocio
-                    dbNegocio.collection(  getString(R.string.DB_NEGOCIOS)  ).document(IdBusiness).collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid())
-                            .set(adapterProfileCliente,SetOptions.merge()) .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                            buttonAddNegocio.setVisibility(View.GONE);
-                            lTolbar.setVisibility(View.VISIBLE);
-                            linearLayout_reseña_calificacion.setVisibility(View.VISIBLE);
-
+                    if(adapterProfileCliente.getNombre() != null  && adapterProfileCliente.getId() != null ){
+                        if(!adapterProfileCliente.getNombre().equals("")  && !adapterProfileCliente.getId().equals("") ){
 
                             //---------- DB Cliente
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("id",adapterProfileNegocio.getId());
-                            dbCliente.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid()).collection(  getString(R.string.DB_NEGOCIOS)  ).document(IdBusiness).set(map,SetOptions.merge());
-                            map.remove(map);
+                            Map<String, String> mID_USUARIO = new HashMap<String, String>();
+                            mID_USUARIO.put("id",firebaseUser.getUid());
+                            //DB Negocio
+                            dbNegocio.collection(  getString(R.string.DB_NEGOCIOS)  ).document(IdBusiness).collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid())
+                                    .set(mID_USUARIO,SetOptions.merge()) .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
+                                    buttonAddNegocio.setVisibility(View.GONE);
+                                    lTolbar.setVisibility(View.VISIBLE);
+                                    linearLayout_reseña_calificacion.setVisibility(View.VISIBLE);
+
+
+                                    //---------- DB Cliente
+                                    Map<String, String> map = new HashMap<String, String>();
+                                    map.put("id",adapterProfileNegocio.getId());
+                                    dbCliente.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid()).collection(  getString(R.string.DB_NEGOCIOS)  ).document(IdBusiness).set(map,SetOptions.merge());
+                                    map.remove(map);
+
+                                }
+                            }) .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {}});
+                        }else{
+                            // Si el usuario no se registro lanza el activity perfil
+                            Intent Lanzador1 = new Intent(MainActivity_lauch_Store.this, Activity_Profile_Edit.class);
+                            startActivity(Lanzador1);
                         }
-                    }) .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {}});
+                    }else{
+                        // Si el usuario no se registro lanza el activity perfil
+                        Intent Lanzador1 = new Intent(MainActivity_lauch_Store.this, Activity_Profile_Edit.class);
+                        startActivity(Lanzador1);
+                    }
+
                 }else{
                     // Si el usuario no se registro lanza el activity perfil
-                    Intent Lanzador1 = new Intent(MainActivity_lauch_Store.this, Activity_Profile.class);
+                    Intent Lanzador1 = new Intent(MainActivity_lauch_Store.this, Activity_Profile_Edit.class);
                     startActivity(Lanzador1);
-
                 }
             }
         });

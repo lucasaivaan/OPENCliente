@@ -10,7 +10,7 @@ public class adapter_profile_clientes {
     private String id;
     private String nombre;
     private String telefono;
-    private String urlfotoPerfil;
+    private String urlfotoPerfil="default";
     private Boolean nuevo_mensaje;
     private Double numreseñas;
     private String cardlayout="default";

@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_clientes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,10 +64,7 @@ public class Activity_Profile_Edit extends AppCompatActivity {
     public  EditText editTextTelefono;
     private ProgressBar progressBar_foto;
 
-    //-String
-    private  String data_nombre;
-    private  String data_telefono;
-    private String UrlfotoPerfil=null;
+    private adapter_profile_clientes aPERFIL=new adapter_profile_clientes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +91,10 @@ public class Activity_Profile_Edit extends AppCompatActivity {
 
 
         //carga informacion del perfil
-        updateProfile();
+        if(firebaseUser != null){
+            updateProfile();
+
+        }
 
     }
 
@@ -118,36 +119,20 @@ public class Activity_Profile_Edit extends AppCompatActivity {
             data_name=new String(caracteres);
 
             //-------------- extraccion de datos -------------------------------------------------------
-            final Map<String, Object> valuePROFILE = new HashMap<>();
-            valuePROFILE.put("nombre",data_name);
-            valuePROFILE.put("telefono",editTextTelefono.getText().toString());
+
+            aPERFIL.setNombre(data_name);
+            aPERFIL.setTelefono(editTextTelefono.getText().toString());
+            aPERFIL.setId(firebaseUser.getUid());
 
             // Si la el valor uri es distinto a  null actualiza  la foto de perfil
-            if(urlDescargarFoto != null ){valuePROFILE.put(  getString(R.string.DB_urlfotoPerfil)  , urlDescargarFoto.toString());}
-            else {
-                //  si el campo url de la foto esta vacio o no existe le asigna un valor por defecto
-                if(UrlfotoPerfil==null || UrlfotoPerfil.equals("") ){ valuePROFILE.put(  getString(R.string.DB_urlfotoPerfil) , "default");}
+            if(urlDescargarFoto != null ){ aPERFIL.setUrlfotoPerfil(urlDescargarFoto.toString()); }
 
-            }
+            //  si el campo url de la foto esta vacio o no existe le asigna un valor por defecto
+            else { if(aPERFIL.getUrlfotoPerfil() == null  ){ if(aPERFIL.getUrlfotoPerfil().equals("")){ aPERFIL.setUrlfotoPerfil("default");} } }
 
 
             // Guardando dato en la base de datos
-            db.collection(  getString(R.string.DB_CLIENTES) ).document(firebaseUser.getUid()).set(valuePROFILE, SetOptions.merge());
-
-            //Actualizando informacion en la lista de clientes de  los negocios
-            CollectionReference collecNegocios=db.collection(  getString(R.string.DB_CLIENTES) ).document(firebaseUser.getUid()).collection(  getString(R.string.DB_NEGOCIOS) );
-            collecNegocios.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
-                        for (DocumentSnapshot doc:task.getResult()){
-                            DocumentReference docNegocio=db.collection(  getString(R.string.DB_NEGOCIOS) ).document(doc.getId()).collection(  getString(R.string.DB_CLIENTES) ).document(firebaseUser.getUid());
-                            docNegocio.set(valuePROFILE, SetOptions.merge());
-                        }
-                    }
-
-                }
-            });
+            db.collection(  getString(R.string.DB_CLIENTES) ).document(firebaseUser.getUid()).set(aPERFIL, SetOptions.merge());
 
             finish();
         }else{
@@ -181,18 +166,22 @@ public class Activity_Profile_Edit extends AppCompatActivity {
                 if(task.isSuccessful()){
                     DocumentSnapshot doc=task.getResult();
                     if(doc.exists()){
+
+                        aPERFIL=doc.toObject(adapter_profile_clientes.class);
                         //---Carga los datos del usuario
-                        String ValueNombre =doc.getString("nombre");
-                        String ValueTelefono =doc.getString("telefono");
 
                         //--Carga la foto de perfil
-                        LoadImagePerfil(doc.getString(  getString(R.string.DB_urlfotoPerfil) ));
-                        UrlfotoPerfil=doc.getString(  getString(R.string.DB_urlfotoPerfil) );
-
+                        if(aPERFIL != null){
+                            if(!aPERFIL.getUrlfotoPerfil().equals("default")){
+                                LoadImagePerfil(doc.getString(  getString(R.string.DB_urlfotoPerfil) ));
+                            }
+                        }else{
+                            aPERFIL.setUrlfotoPerfil("default");
+                        }
 
                         //---Cargamos los datos a los texviewa
-                        editTextNombre.setText(ValueNombre);
-                        editTextTelefono.setText(ValueTelefono);
+                        editTextNombre.setText(aPERFIL.getNombre());
+                        editTextTelefono.setText(aPERFIL.getTelefono());
                     }
                 }
             }

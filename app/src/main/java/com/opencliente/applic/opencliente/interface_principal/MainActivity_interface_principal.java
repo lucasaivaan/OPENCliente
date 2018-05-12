@@ -400,8 +400,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
         startService(new Intent(this,ServiseNotify.class));
 
         /////////////////////////// CARGA DATOS ////////////////////////////////////////////////////
-        // DATOS DEL USUARIO
-        nav_load_profile();
 
         // LISTA DE TARJETAS
         Carga_Recyclerview_tarjetas();
@@ -497,6 +495,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        // DATOS DEL USUARIO
+        nav_load_profile();
     }
     @Override
     public void onPause() {
@@ -548,44 +549,54 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
         // Base de Datos
         final DocumentReference docProfile=db.collection(  getString(R.string.DB_CLIENTES)  ).document( firebaseUser.getUid() );
-        docProfile.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        docProfile.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(DocumentSnapshot Docperfil, FirebaseFirestoreException e) {
-                if(Docperfil.exists()){
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(firebaseAuth != null){
+                    if(task.isSuccessful()){
+                        DocumentSnapshot Docperfil=task.getResult();
+                        if(Docperfil.exists()){
+                            //Adaptador perfil cliente
+                            adapter_profile_clientes PerfilCliente=Docperfil.toObject(adapter_profile_clientes.class);
 
-                    //Adaptador perfil cliente
-                    adapter_profile_clientes PerfilCliente=Docperfil.toObject(adapter_profile_clientes.class);
+                            if(PerfilCliente.getNombre() != null){
 
-                    if(PerfilCliente.getNombre() != null){
+                                // Foto de perfil
+                                if(PerfilCliente.getUrlfotoPerfil() != null){
+                                    //-Descarga la foto perfil client
+                                    Glide.clear(navImgUser);
+                                    Glide.with(MainActivity_interface_principal.this)
+                                            .load(PerfilCliente.getUrlfotoPerfil())
+                                            .fitCenter()
+                                            .centerCrop()
+                                            .into(navImgUser);
+                                }
 
-                        // Foto de perfil
-                        if(PerfilCliente.getUrlfotoPerfil() != null){
-                            //-Descarga la foto perfil client
-                            Glide.clear(navImgUser);
-                            Glide.with(MainActivity_interface_principal.this)
-                                    .load(PerfilCliente.getUrlfotoPerfil())
-                                    .fitCenter()
-                                    .centerCrop()
-                                    .into(navImgUser);
+                                // Nombre
+                                navUsername.setText(PerfilCliente.getNombre());
+
+                                // Numero de Publicaciones
+                                if(PerfilCliente.getNumreseñas() != null){
+                                    navCounReseñas.setText(String.valueOf( (int) PerfilCliente.getNumreseñas().doubleValue()));
+                                }
+
+                            }else {
+                                Intent Lanzador1 = new Intent(MainActivity_interface_principal.this, Activity_Profile_Edit.class);
+                                startActivity(Lanzador1);
+                            }
+                        }else{
+                            Intent Lanzador1 = new Intent(MainActivity_interface_principal.this, Activity_Profile_Edit.class);
+                            startActivity(Lanzador1);
                         }
-
-                        // Nombre
-                        navUsername.setText(PerfilCliente.getNombre());
-
-                        // Numero de Publicaciones
-                        if(PerfilCliente.getNumreseñas() != null){
-                            navCounReseñas.setText(String.valueOf( (int) PerfilCliente.getNumreseñas().doubleValue()));
-                        }
-
-                    }else {
-                        Intent Lanzador1 = new Intent(MainActivity_interface_principal.this, Activity_Profile_Edit.class);
-                        startActivity(Lanzador1);
                     }
+
                 }else{
-                    Intent Lanzador1 = new Intent(MainActivity_interface_principal.this, Activity_Profile_Edit.class);
+                    Intent Lanzador1 = new Intent(MainActivity_interface_principal.this, MainActivity_Auth.class);
                     startActivity(Lanzador1);
                 }
+
             }
+
         });
 
         // DB Url Play Store
