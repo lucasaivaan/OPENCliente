@@ -232,11 +232,17 @@
     <string name="info_ofertas">Oferta que buscás, oferta que pescás</string>
     <string name="reseña">Reseña</string>
     <string name="ver_productos">Ver productos</string>
+    <string name="productos">Productos</string>
+    <string name="pregunta_eliminar_productos">¿Eliminar producto?</string>
     <string name="titulo">Titulo</string>
     <string name="descripcion">Descripción</string>
     <string name="personalizar">Personalizar</string>
     <string name="ver_fotos">Ver fotos</string>
     <string name="sin_fotos">sin fotos</string>
+    <string name="agregar_producto">Agregar producto</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="realizar_pedido">Realizar pedido</string>
+    <string name="cerrar">Cerrar</string>
     <!-- _______________________________________________________________________________________ -->
 
 

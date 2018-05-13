@@ -1,26 +1,31 @@
 package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,6 +40,7 @@ import com.opencliente.applic.opencliente.R;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_producto;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_ProductosNegocio;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_pedidos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +51,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
     //TOllbar
     private EditText editText_Toolbar_Seach;
+    private Button button_Delivery;
 
 
     ////////////////////////////  PRODUCTO
@@ -52,6 +59,17 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     public List<adapter_producto> adapter_productoList;
     public adapter_recyclerView_ProductosNegocio adapter_recyclerView_productos;
     private ImageView imageViewFondo;
+
+    // SISTEMA DE PEIDOS
+    private Integer iCantidad;
+    private Double dPrecio;
+    public List<adapter_producto> adapter_productoListPedidos =new ArrayList<>();
+    private  Double dTotalPrecio;
+    // RECYCLERVIEW
+    public RecyclerView recyclerViewProductoPedidos;
+    public List<adapter_producto> adapter_productoListPedidosRecycler =new ArrayList<>();
+    public adapter_recyclerView_pedidos adapter_recyclerView_productosPedidos;
+    private ImageView imageViewFondoPedidos;
 
     // Spinner Categoria
     private Spinner spinnerCategoria;// Elementos en Spinner
@@ -113,10 +131,11 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         spinnerCategoria=(Spinner) findViewById(R.id.spinner_categorias);
         imageViewFondo=(ImageView) findViewById(R.id.imageView15_fondo2);
         editText_Toolbar_Seach=(EditText) findViewById(R.id.editText2_seach);
-
+        button_Delivery=(Button) findViewById(R.id.button_delivery);
+        button_Delivery.setVisibility(View.GONE);
 
         // Carga los productos
-        Recycler_Producto("");
+        CargarProductos("");
 
 
         editText_Toolbar_Seach.addTextChangedListener(new TextWatcher() {
@@ -130,13 +149,13 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 if(!editText_Toolbar_Seach.getText().toString().equals("")){
 
                     // Buscador
-                    Recycler_Producto(editText_Toolbar_Seach.getText().toString());
+                    CargarProductos(editText_Toolbar_Seach.getText().toString());
                 }else {
 
                     if(spinnerCategoria.getSelectedItem() != null){
                         if(!spinnerCategoria.getSelectedItem().toString().equals(getString(R.string.elije_una_categoaria))){
-                            Recycler_Producto(spinnerCategoria.getSelectedItem().toString());
-                        }else { Recycler_Producto("");}
+                            CargarProductos(spinnerCategoria.getSelectedItem().toString());
+                        }else { CargarProductos("");}
                     } }
 
             }
@@ -174,7 +193,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     }
 
     //////////////////////////  CARGA PRODUCTOS ///////////////////////////////////////////////////
-    public  void Recycler_Producto(final String categoria){
+    public  void CargarProductos(final String categoria){
 
 
 
@@ -185,6 +204,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         //--Adaptadores
         adapter_productoList =new ArrayList<>();
         adapter_recyclerView_productos =new adapter_recyclerView_ProductosNegocio(adapter_productoList,this);
+
         adapter_recyclerView_productos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,6 +231,15 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
                 progressBar_foto.setVisibility(View.GONE);
 
+                // Cantidad
+                Button button_menos=(Button) dialog.findViewById(R.id.button_menos);
+                Button button_mas=(Button) dialog.findViewById(R.id.button_mas);
+                Button button_agregarProducto =(Button) dialog.findViewById(R.id.button_agregar_producto);
+                final TextView textView_cantidad=(TextView) dialog.findViewById(R.id.textView_numeroCamtidad);
+                iCantidad=1;
+                dPrecio= adapterProductoOriginal.getPrecio() ;
+
+
                 //Set
                 // Carga la imagen de perfil
                 if(!adapterProductoOriginal.getUrlimagen().equals("default")){
@@ -229,14 +258,57 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
                 textView10_nombre.setText(adapterProductoOriginal.getInfo1());
                 textview_informacion.setText(adapterProductoOriginal.getInfo2());
-                textview_precio.setText(Double.toString(adapterProductoOriginal.getPrecio()));
+                textview_precio.setText(  Double.toString(dPrecio)  );
 
+                // Button OnClick
                 imageButton_Exit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
+                button_menos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(iCantidad > 0){
+
+                            // Cantidad
+                            iCantidad-=1;
+                        }
+
+                        // Actuliza el precio
+                        textview_precio.setText(  Double.toString( dPrecio*iCantidad )  );
+
+                        textView_cantidad.setText(String.valueOf(iCantidad));
+
+                    }
+                });
+                button_mas.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        // Cantidad
+                        iCantidad+=1;
+
+                        // Actuliza y cantidad
+                        textview_precio.setText(  Double.toString( dPrecio*iCantidad )  );
+                        textView_cantidad.setText(String.valueOf(iCantidad));
+                    }
+                });
+                button_agregarProducto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        adapterProductoOriginal.setCantidad(iCantidad);
+
+                        // Carga el producto a la liste de pedidos
+                        SistemaPedidos(adapterProductoOriginal);
+                        dialog.dismiss();
+
+                    }
+                });
+
 
             }});
 
@@ -316,8 +388,89 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
             }
         });
     }
+    public void SistemaPedidos(adapter_producto adapterProducto){
 
+        adapter_productoListPedidos.add(adapterProducto);
+
+        if(adapter_productoListPedidos.size() > 0){
+            button_Delivery.setVisibility(View.VISIBLE);
+            button_Delivery.setText( String.valueOf(adapter_productoListPedidos.size())+" "+ getResources().getString(R.string.productos));
+        }
+
+    }
     //---------------------------   BUTTON
+    public void Button_pedidos(View view){
+
+
+        //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+        //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+        final Dialog dialog=new Dialog(MainActivity_productos.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.view_list_pedidos);
+        dialog.show();
+
+        // References
+        Button button_RealizarPedido=(Button) dialog.findViewById(R.id.button_realizar_pedido);
+        Button button_Cerrar=(Button) dialog.findViewById(R.id.button9_cerrar);
+        recyclerViewProductoPedidos=(RecyclerView) dialog.findViewById(R.id.recyclerView_pedidos);
+        final TextView textView_PrecioTotal=(TextView) dialog.findViewById(R.id.textView10_perciototal);
+        dTotalPrecio=00.00;
+
+        recyclerViewProductoPedidos.setLayoutManager(new LinearLayoutManager(this));
+        //--Adaptadores
+        adapter_recyclerView_productosPedidos =new adapter_recyclerView_pedidos(adapter_productoListPedidos,this);
+
+        //OnClick
+        adapter_recyclerView_productosPedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        // Eventos de Recyclerviews
+        adapter_recyclerView_productosPedidos.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                // Precio toltal
+                dTotalPrecio=0.0;
+
+                if(adapter_productoListPedidos.size() != 0){
+                    // Recorre el ArrayList de los productos seleccionados
+                    for(adapter_producto adapterProducto: adapter_productoListPedidos){
+
+                        // Multiplica el precio del prodcuto  por la cantidad
+                        dTotalPrecio+=adapterProducto.getPrecio()*adapterProducto.getCantidad();
+
+                        // set
+                        textView_PrecioTotal.setText(Double.toString(dTotalPrecio));
+                        button_Delivery.setText( String.valueOf(adapter_productoListPedidos.size())+" "+ getResources().getString(R.string.productos));
+                    }
+                }else{
+
+                    // Finaliza el cuadro de dialogo y esconde el button de delivery
+                    dialog.dismiss();
+                    button_Delivery.setVisibility(View.GONE);
+                }
+
+            }
+        });
+        recyclerViewProductoPedidos.setAdapter(adapter_recyclerView_productosPedidos);
+        // Actualiza el RecyclerView
+        adapter_recyclerView_productosPedidos.notifyDataSetChanged();
+
+
+        // Button OnClick
+        button_Cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
 
 
     @Override
@@ -341,7 +494,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         switch (parent.getId()) {
             case R.id.spinner_categorias:
                 if(!spinnerCategoria.getSelectedItem().toString().equals(getString(R.string.elije_una_categoaria))){
-                    Recycler_Producto(spinnerCategoria.getSelectedItem().toString());
+                    CargarProductos(spinnerCategoria.getSelectedItem().toString());
                 }
         }
 

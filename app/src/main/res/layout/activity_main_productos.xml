@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_delivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,10 +107,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbarSize="3dp"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="596dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints" />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_delivery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_green_300"
+        android:onClick="Button_pedidos"
+        android:text="@string/ver_productos"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
