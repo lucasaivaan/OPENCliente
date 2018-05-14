@@ -1,7 +1,7 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,7 +45,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity_productos extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MainActivity_productos extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     //TOllbar
     private EditText editText_Toolbar_Seach;
@@ -110,7 +108,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_productos);
+        setContentView(R.layout.activity_main_negocios_productos);
         setTitle(" null ");
 
         // (Barra de herramientas)
@@ -414,6 +412,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         // References
         Button button_RealizarPedido=(Button) dialog.findViewById(R.id.button_realizar_pedido);
         Button button_Cerrar=(Button) dialog.findViewById(R.id.button9_cerrar);
+
+        // Recyclerview
         recyclerViewProductoPedidos=(RecyclerView) dialog.findViewById(R.id.recyclerView_pedidos);
         final TextView textView_PrecioTotal=(TextView) dialog.findViewById(R.id.textView10_perciototal);
         dTotalPrecio=00.00;
@@ -467,6 +467,20 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        button_RealizarPedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent Lanzador1=new Intent(MainActivity_productos.this,MainActivity_negocios_formulario_pedidos.class);
+                Lanzador1.putExtra("ID_NEGOCIO", ID_NEGOCIO);
+                startActivity(Lanzador1);
+
+                // reset
+
+
             }
         });
 

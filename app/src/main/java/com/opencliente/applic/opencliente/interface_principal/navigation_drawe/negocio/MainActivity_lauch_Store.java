@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -81,8 +80,8 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_servicios_negocio;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adaptador_foto;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_productos;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile_Edit;
 
@@ -238,7 +237,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_launch_store);
+        setContentView(R.layout.activity_main_interface_negocio);
 
 
 

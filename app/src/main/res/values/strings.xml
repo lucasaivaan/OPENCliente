@@ -8,6 +8,8 @@
     <string name="DB_APP">APP</string>
     <string name="DB_NEGOCIOS">NEGOCIOS</string>
     <string name="DB_INFORMACION">INFORMACION</string>
+    <string name="DB_DIRECCIONES">DIRECCIONES</string>
+    <string name="DB_PEDIDOS">PEDIDOS</string>
 
     <string name="DB_CLIENTES">CLIENTES</string>
     <string name="DB_PRODUCTOS">PRODUCTOS</string>
@@ -212,6 +214,8 @@
     <!-- Restaurant-->
     <string name="service_restaurant">Restaurant</string>
 
+    <string name="noti_complete_los_campos_necesarios">Complete los campos necesarios</string>
+
 
     <string name="esperando_ubicacion">Esperando ubicación</string>
     <string name="no_tiene_fotos">No tiene fotos</string>
@@ -243,6 +247,31 @@
     <string name="cantidad">Cantidad</string>
     <string name="realizar_pedido">Realizar pedido</string>
     <string name="cerrar">Cerrar</string>
+    <string name="notas">Notas</string>
+    <string name="agregar_notas">Agregar notas (ej: Sin sal)</string>
+    <string name="Ingrese_direccion_entrega">Ingrese la dirección de entrega</string>
+    <string name="tipo_entrega">Tipo de entrega</string>
+    <string name="horario_entrega">Horario de entrega</string>
+    <string name="forma_pago">Forma de pago</string>
+    <string name="enviar_peido">Enviar pedido</string>
+    <string name="añadir_direccion">Añadir dirección</string>
+    <string name="calle">Calle</string>
+    <string name="numero">Número</string>
+    <string name="piso_departamento">Piso  / Depto (Opcional)</string>
+    <string name="entre_calles">Entre calles</string>
+    <string name="localidad">Localidad</string>
+
+    <string name="selecciones_horario">Seleccione una horario</string>
+    <string name="pedido_inmediato">Pedido de inmediato</string>
+    <string name="selecciones_categoria">Seleccione una categoría</string>
+    <string name="selecciones_metodo">Seleccione una metodo</string>
+    <string name="retirar_personalmente">Retirar personalmente</string>
+    <string name="delivery">Delivery</string>
+
+    <string name="selecciones_forma">Seleccione una forma de pago</string>
+    <string name="efectivo">Efectivo</string>
+    <string name="tarjeta_credito">Tarjeta de credito</string>
+    <string name="costo_adicional">En algunos casos, esto podría tener un costo adicional</string>
     <!-- _______________________________________________________________________________________ -->
 
 

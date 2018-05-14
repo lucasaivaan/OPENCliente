@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="tipo_pedidos">
+        <item>@string/selecciones_metodo</item>
+        <item>@string/retirar_personalmente</item>
+        <item>@string/delivery</item>
+    </array>
+
+    <string-array name="horarios">
+        <item>@string/selecciones_horario</item>
+        <item>@string/pedido_inmediato</item>
+        <item>08:00 - 09:00</item>
+        <item>09:00 - 10:00</item>
+        <item>10:00 - 11:00</item>
+        <item>11:00 - 12:00</item>
+        <item>12:00 - 13:00</item>
+        <item>13:00 - 14:00</item>
+        <item>14:00 - 15:00</item>
+        <item>15:00 - 16:00</item>
+        <item>16:00 - 17:00</item>
+        <item>17:00 - 18:00</item>
+        <item>18:00 - 19:00</item>
+        <item>17:00 - 20:00</item>
+        <item>20:00 - 21:00</item>
+    </string-array>
+
+    <array name="formato_pago">
+        <item>@string/selecciones_metodo</item>
+        <item>@string/efectivo</item>
+        <item>@string/tarjeta_credito</item>
+    </array>
+</resources>
