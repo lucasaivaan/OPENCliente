@@ -81,7 +81,7 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adaptador_foto;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_productos;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_productos;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.cuentna_launch;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile_Edit;
 

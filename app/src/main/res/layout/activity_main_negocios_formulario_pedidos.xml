@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_negocios_formulario_pedidos">
+    tools:context=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_negocios_formulario_pedidos">
 
 
     <LinearLayout
@@ -46,7 +46,8 @@
                     android:id="@+id/input_telefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/DB_telefono" />
+                    android:hint="@string/DB_telefono"
+                    android:inputType="number" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -170,6 +171,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/cardview_shadow_start_color" />
+
+
+                    <LinearLayout
+                        android:id="@+id/layot_cantidadPagar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView33"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ingrese_cuanto_va_pagar" />
+
+                        <EditText
+                            android:id="@+id/editText_cantidadPago"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="$"
+                            android:inputType="number" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

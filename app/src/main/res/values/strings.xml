@@ -69,6 +69,7 @@
 
 
     <string name="si">Si</string>
+    <string name="no">No</string>
 
     <!-- *Google -->
     <string name="datos_gps_no_disponible">Datos GPS no esta disponible</string>
@@ -272,6 +273,16 @@
     <string name="efectivo">Efectivo</string>
     <string name="tarjeta_credito">Tarjeta de credito</string>
     <string name="costo_adicional">En algunos casos, esto podría tener un costo adicional</string>
+    <string name="ingrese_cuanto_va_pagar">Ingrese con cuánto vas a pagar (opcional)</string>
+    <string name="tienes_pedidos_pendiantes">Tienes un pedido pendiente</string>
+    <string name="pedidos">Pedidos</string>
+    <string name="pedido">Pedido</string>
+    <string name="cancelar_pedido">Cancelar pedido</string>
+    <string name="pregunta_cancelar_pedido">¿Seguro que quieres cancelar el pedido?</string>
+    <string name="pregunta_pedido_recibido">¿Recibiste el pedido?</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="confirmado">Confirmado</string>
+    <string name="seleccionar_gustos">Seleccionar los gustos</string>
     <!-- _______________________________________________________________________________________ -->
 
 

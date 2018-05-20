@@ -1,4 +1,4 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.opencliente.applic.opencliente.R;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores.adaptador_direccion;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores.adaptador_direccion;
 
 public class MainActivity_negocios_formulario_direccion extends AppCompatActivity {
 

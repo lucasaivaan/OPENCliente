@@ -1,6 +1,5 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores;
 
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -11,6 +10,7 @@ public class adaptador_pedido {
     public adaptador_pedido() { }
 
     private String id_cliente;
+    private String id_negocio;
     private String id;
     private String contacto;
     private String telefono;
@@ -19,20 +19,33 @@ public class adaptador_pedido {
     private String nota;
     private Map<String,Object> direccion= new HashMap<String, Object>();
     private Date timestamp;
-    private Boolean estado=false;
+    private Integer estado;
+    private Map<String,Object> lista_productos= new HashMap<String, Object>();
+    private String cantidad_pago;
+    private String mensaje;
 
 
 
+
+
+    public String getMensaje() { return mensaje; }
+    public void setMensaje(String mensaje) { this.mensaje = mensaje; }
+    public String getCantidad_pago() { return cantidad_pago; }
+    public void setCantidad_pago(String cantidad_pago) { this.cantidad_pago = cantidad_pago; }
+    public String getId_negocio() { return id_negocio; }
+    public void setId_negocio(String id_negocio) { this.id_negocio = id_negocio; }
     public String getId() { return id; }
     public String getContacto() { return contacto; }
     public String getTipo_entrega() { return tipo_entrega; }
     public String getForma_pago() { return forma_pago; }
     public String getNota() { return nota; }
     public Map<String,Object> getDireccion() { return direccion; }
-    public Boolean getEstado() { return estado; }
+    public Integer getEstado() { return estado; }
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
 
+    public Map<String,Object> getLista_productos() { return lista_productos; }
+    public void setLista_productos(Map<String,Object> lista_productos) { this.lista_productos = lista_productos; }
 
     public String getId_cliente() { return id_cliente; }
     public void setId_cliente(String id_cliente) { this.id_cliente = id_cliente; }
@@ -43,7 +56,7 @@ public class adaptador_pedido {
     public void setForma_pago(String forma_pago) { this.forma_pago = forma_pago; }
     public void setNota(String nota) { this.nota = nota; }
     public void setDireccion(Map<String,Object> direccion) { this.direccion = direccion; }
-    public void setEstado(Boolean estado) { this.estado = estado; }
+    public void setEstado(Integer estado) { this.estado = estado; }
 
     @ServerTimestamp
     public Date getTimestamp() { return timestamp; }

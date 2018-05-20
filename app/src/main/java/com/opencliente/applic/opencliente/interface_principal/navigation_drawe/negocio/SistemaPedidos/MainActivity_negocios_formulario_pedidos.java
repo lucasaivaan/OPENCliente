@@ -1,6 +1,7 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,12 +29,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.opencliente.applic.opencliente.R;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_pedidos;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores.adaptador_direccion;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores.adaptador_pedido;
-import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores.adapter_recyclerView_direccion;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_clientes;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_producto;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores.adaptador_direccion;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores.adapter_recyclerView_direccion;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.firebase.firestore.FieldValue.serverTimestamp;
+import static com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_productos.adapter_productoListPedidos;
 
 public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity {
 
@@ -50,9 +51,9 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
     private LinearLayout layoutHorarios;
     private LinearLayout layoutDireeccion;
     private LinearLayout layoutContenidos;
+    private LinearLayout layot_cantidadPagar;
 
     // String Datos
-    private  String ID_NEGOCIO;
     private String sContacto;
     private String sTipoEntrega;
     private Object objDireccion;
@@ -65,6 +66,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
     private EditText editText_Contacto;
     private EditText editText_Nota;
     private EditText editText_telefono;
+    private EditText editText_cantidadPago;
 
     // Spinner
     private Spinner spinnerTipoPedido;
@@ -72,6 +74,10 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
 
     // TextView
     private TextView textView_Direccion;
+
+    // DAtos
+    private  String ID_NEGOCIO;
+    private ArrayList<String> arrayListaProductos;
 
 
     // RECYCLERVIEW
@@ -100,16 +106,20 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
 
         //--- Obtenemos los datos pasados por parametro
         ID_NEGOCIO = getIntent().getExtras().getString("ID_NEGOCIO");
+        arrayListaProductos = (ArrayList<String>) getIntent().getStringArrayListExtra("LISTA_PRODUCTOS");
 
         // References
         textView_Direccion=(TextView) findViewById(R.id.textView37);
         layoutHorarios=(LinearLayout) findViewById(R.id.layout_horario);
         layoutDireeccion=(LinearLayout) findViewById(R.id.layout_direccion);
         layoutContenidos=(LinearLayout) findViewById(R.id.layout_contenido);
+        layot_cantidadPagar=(LinearLayout) findViewById(R.id.layot_cantidadPagar);
+        layot_cantidadPagar.setVisibility(View.GONE);
 
         editText_Contacto=(EditText) findViewById(R.id.input_contacto);
         editText_Nota=(EditText) findViewById(R.id.editext_nota);
         editText_telefono=(EditText) findViewById(R.id.input_telefono);
+        editText_cantidadPago=(EditText) findViewById(R.id.editText_cantidadPago);
 
         // Spinner Tipo de pedido
         spinnerTipoPedido = (Spinner) findViewById(R.id.spinneer_tipo_entrega);
@@ -196,9 +206,20 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                 if(position == 0){
                     // set Dato
                     sFormaPago="";
-                }else{
+                }else if(position == 1){
                     // set Dato
                     sFormaPago=spinner_formaPago.getItemAtPosition(position).toString();
+
+                    // control de visivilidad
+                    layot_cantidadPagar.setVisibility(View.VISIBLE);
+
+                }else if(position == 2){
+
+                    // set Dato
+                    sFormaPago=spinner_formaPago.getItemAtPosition(position).toString();
+
+                    // control de visivilidad
+                    layot_cantidadPagar.setVisibility(View.GONE);
                 }
 
             }
@@ -207,6 +228,29 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
             public void onNothingSelected(AdapterView<?> parent)
             {
                 // vacio
+            }
+        });
+
+
+
+        // firestore
+        // Informacion del perfil del cliente
+        DocumentReference docProfileCliente=firestore.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseAuth.getUid());
+        docProfileCliente.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot perfil=task.getResult();
+                    if(perfil.exists()){
+
+                        // Adapter
+                        adapter_profile_clientes adapterProfileClientes=perfil.toObject(adapter_profile_clientes.class);
+
+                        // Set
+                        editText_Contacto.setText(adapterProfileClientes.getNombre());
+                        editText_telefono.setText(adapterProfileClientes.getTelefono());
+                    }
+                }
             }
         });
 
@@ -309,8 +353,9 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
         if(spinnerTipoPedido.getSelectedItemPosition() != 0){
 
 
-            // ID
-            String ID_Pedido = firebaseAuth.getUid();
+            // ID unico
+            SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+            String ID_UNICO = s.format(new Date());
 
             // get Datos
             sContacto=editText_Contacto.getText().toString();
@@ -320,27 +365,42 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
 
             if(!sContacto.equals("") || !sTelefono.equals("") || !sFormaPago.equals("")){
 
+                Map<String, Object> lista_productos = new HashMap<String, Object>();
+
+                for(adapter_producto adapterProductos : adapter_productoListPedidos){
+
+                    lista_productos.put(adapterProductos.getId(), adapterProductos.getInfopedido() );
+                }
+
 
                 // adaptador pedido
                 Map<String, Object> mapPedido = new HashMap<>();
                 mapPedido.put("id_cliente",firebaseAuth.getUid() );
-                mapPedido.put("id",ID_Pedido );
+                mapPedido.put("id",ID_UNICO );
                 mapPedido.put("contacto",sContacto );
                 mapPedido.put("tipo_entrega",sTipoEntrega );
                 mapPedido.put("forma_pago", sFormaPago);
                 mapPedido.put("nota", sNota);
                 if(mapPedido != null){ mapPedido.put("direccion",mapDireccion );}else{mapPedido.put("direccion",null );}
                 mapPedido.put("timestamp",FieldValue.serverTimestamp() );
-                mapPedido.put("estado",false );
+                mapPedido.put("estado",0 );
                 mapPedido.put("telefono",sTelefono );
+                mapPedido.put("lista_productos",lista_productos);
+                mapPedido.put("cantidad_pago",editText_cantidadPago.getText().toString());
 
 
                 // FIRESTORE ( Referecia DB negocio)
-                DocumentReference documentReference=firestore.collection(  getResources().getString(R.string.DB_NEGOCIOS)  ).document(  ID_NEGOCIO  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(ID_Pedido);
+                DocumentReference documentReference=firestore.collection(  getResources().getString(R.string.DB_NEGOCIOS)  ).document(  ID_NEGOCIO  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(ID_UNICO);
                 documentReference.set(mapPedido);
+
                 // FIRESTORE ( Referecia DB cliente)
-                DocumentReference documentReferenceCliente=firestore.collection(  getResources().getString(R.string.DB_CLIENTES)  ).document(  firebaseAuth.getUid()  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(ID_Pedido);
-                documentReferenceCliente.set(mapPedido);
+                // adaptador pedido
+                Map<String, Object> mapPedidoCliente = new HashMap<>();
+                mapPedidoCliente.put("id",ID_UNICO );
+                mapPedidoCliente.put("id_negocio",ID_NEGOCIO );
+                mapPedidoCliente.put("estado",0);  //0=(pendiente) 1= (confirmado) 2 =(eliminado)
+                DocumentReference documentReferenceCliente=firestore.collection(  getResources().getString(R.string.DB_CLIENTES)  ).document(  firebaseAuth.getUid()  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(ID_UNICO);
+                documentReferenceCliente.set(mapPedidoCliente);
 
                 // Finaliza la activity
                 finish();

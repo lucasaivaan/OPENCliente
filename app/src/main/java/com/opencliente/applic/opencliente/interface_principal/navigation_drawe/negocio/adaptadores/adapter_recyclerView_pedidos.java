@@ -56,39 +56,87 @@ public class adapter_recyclerView_pedidos extends RecyclerView.Adapter<adapter_r
     public void onBindViewHolder(final homeViwHolder holder, final int position) {
         final adapter_producto adapterProducto= adapter_productoList.get(position);
 
-        if(adapterProducto.getInfo1() != null){
-            holder.datoMarca.setText(adapterProducto.getInfo1());
-            holder.datoInfo.setText(adapterProducto.getInfo2());
+        // Tipo de producto
+        if(adapterProducto.getTipo() == 0){
 
-            if(adapterProducto.getPrecio() ==null){
-                holder.datoPrecio.setVisibility(View.GONE);
-            }else {
-                holder.datoPrecio.setText(String.valueOf(adapterProducto.getPrecio()*adapterProducto.getCantidad()));
-                holder.datoCantidad.setText("X"+String.valueOf(adapterProducto.getCantidad()));
-            }
+            if(adapterProducto.getInfo1() != null){
+                holder.datoMarca.setText(adapterProducto.getInfo1());
+                holder.datoInfo.setText(adapterProducto.getInfo2());
 
-            if(!adapterProducto.getUrlimagen().equals("default")){
-                Glide.with(context)
-                        .load(adapterProducto.getUrlimagen())
-                        .fitCenter()
-                        .centerCrop()
-                        .into(holder.ImageProducto);
-            }else{
-                holder.progressBar.setVisibility(View.GONE);
+                if(adapterProducto.getPrecio() ==null){
+                    holder.datoPrecio.setVisibility(View.GONE);
+                }else {
+                    Integer iCantidad=(int) adapterProducto.getInfopedido().get("cantidad");
+                    holder.datoPrecio.setText(  String.valueOf(adapterProducto.getPrecio()* iCantidad )  );
+                    holder.datoCantidad.setText(  "X"+String.valueOf( iCantidad )  );
+                }
 
+                if(!adapterProducto.getUrlimagen().equals("default")){
+                    Glide.with(context)
+                            .load(adapterProducto.getUrlimagen())
+                            .fitCenter()
+                            .centerCrop()
+                            .into(holder.ImageProducto);
+                }else{
+                    holder.progressBar.setVisibility(View.GONE);
 
-            }
-
-            // button OnClick
-            holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    deleteItemFromList(v,position);
 
                 }
-            });
+
+                // button OnClick
+                holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        deleteItemFromList(v,position);
+
+                    }
+                });
+            }
+
+        }else if( adapterProducto.getTipo() == 1 ){
+
+            if(adapterProducto.getInfo1() != null){
+
+                holder.datoMarca.setText(adapterProducto.getInfo1());
+                holder.datoInfo.setText(adapterProducto.getInfo2());
+
+                if(adapterProducto.getPrecio() ==null){
+                    holder.datoPrecio.setVisibility(View.GONE);
+                }else {
+                    int iCantidad= (int) adapterProducto.getInfopedido().get("cantidad");
+
+                    iCantidad= (int) adapterProducto.getInfopedido().get("cantidad");
+                    holder.datoPrecio.setText(  String.valueOf( adapterProducto.getPrecio()* iCantidad )  );
+                    holder.datoCantidad.setText(  "X"+String.valueOf( iCantidad )  );
+                }
+
+                // Imagen
+                if(!adapterProducto.getUrlimagen().equals("default")){
+                    Glide.with(context)
+                            .load(adapterProducto.getUrlimagen())
+                            .fitCenter()
+                            .centerCrop()
+                            .into(holder.ImageProducto);
+                }else{
+                    holder.progressBar.setVisibility(View.GONE);
+
+
+                }
+
+                // button OnClick
+                holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        deleteItemFromList(v,position);
+
+                    }
+                });
+            }
+
         }
+
     }
 
     // confirmation dialog box to delete an unit

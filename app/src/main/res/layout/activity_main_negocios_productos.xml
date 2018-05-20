@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_productos">
+    tools:context=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_productos">
 
 
     <LinearLayout

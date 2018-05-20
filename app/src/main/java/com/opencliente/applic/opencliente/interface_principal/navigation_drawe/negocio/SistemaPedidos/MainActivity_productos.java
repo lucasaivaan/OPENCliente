@@ -1,9 +1,11 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,11 +24,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,16 +43,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.opencliente.applic.opencliente.R;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores.adapter_recyclerView_Sabores;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_producto;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_ProductosNegocio;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_pedidos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity_productos extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity_productos extends AppCompatActivity implements AdapterView.OnItemSelectedListener,Serializable {
 
     //TOllbar
     private EditText editText_Toolbar_Seach;
@@ -61,17 +72,20 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     // SISTEMA DE PEIDOS
     private Integer iCantidad;
     private Double dPrecio;
-    public List<adapter_producto> adapter_productoListPedidos =new ArrayList<>();
+    static List<adapter_producto> adapter_productoListPedidos =new ArrayList<>();
     private  Double dTotalPrecio;
+    private int iCantidadSabores=0;
+    private int iLimiteCantidadSabores=3;
+
     // RECYCLERVIEW
     public RecyclerView recyclerViewProductoPedidos;
     public List<adapter_producto> adapter_productoListPedidosRecycler =new ArrayList<>();
     public adapter_recyclerView_pedidos adapter_recyclerView_productosPedidos;
-    private ImageView imageViewFondoPedidos;
+
 
     // Spinner Categoria
     private Spinner spinnerCategoria;// Elementos en Spinner
-    List<String> listCatSpinner = new ArrayList<String>();
+    private List<String> listCatSpinner = new ArrayList<String>();
 
 
     // View Flotante
@@ -80,6 +94,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     public TextView textview_informacion;
     private TextView textview_precio;
     private TextView textview_codigo;
+    private LinearLayout layout_contenido_productoVenta;
+    private Button button_SeleccionarGustos;
 
 
     // Recyclerview categorias
@@ -92,16 +108,16 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
     //- Storage
     // Create a storage reference from our app
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReference();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
     // Create a reference to the file to delete
-    StorageReference desertRef;
+    private StorageReference desertRef;
 
     private StorageReference mStorage;
     private static final int GALLLERY_INTENT = 1;
     private String urlDescargarFoto;
     private byte[] bytesMapImagen;
-    String idUnicoProducto;
+    private String idUnicoProducto;
     private ProgressBar progressBar_foto;
 
     private String ID_NEGOCIO;
@@ -125,7 +141,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
 
         // Reference
-
+        adapter_productoListPedidos=null;
+        adapter_productoListPedidos =new ArrayList<>();
         spinnerCategoria=(Spinner) findViewById(R.id.spinner_categorias);
         imageViewFondo=(ImageView) findViewById(R.id.imageView15_fondo2);
         editText_Toolbar_Seach=(EditText) findViewById(R.id.editText2_seach);
@@ -228,6 +245,10 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 textview_codigo=(TextView) dialog.findViewById(R.id.textview_codigo);
                 progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
                 progressBar_foto.setVisibility(View.GONE);
+                layout_contenido_productoVenta=(LinearLayout) dialog.findViewById(R.id.layout_contenido_productoVenta);
+                button_SeleccionarGustos=(Button) dialog.findViewById(R.id.button_seleccionarGustos);
+                button_SeleccionarGustos.setVisibility(View.GONE);
+
 
                 // Cantidad
                 Button button_menos=(Button) dialog.findViewById(R.id.button_menos);
@@ -236,6 +257,23 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 final TextView textView_cantidad=(TextView) dialog.findViewById(R.id.textView_numeroCamtidad);
                 iCantidad=1;
                 dPrecio= adapterProductoOriginal.getPrecio() ;
+
+                // control de visibilidad de producto
+                //  0= ventas
+                //  1= venta de pote de helado con opciones de gustos de helado
+                //  3= gustos de helado
+
+                if(adapterProductoOriginal.getTipo() == null){
+                    adapterProductoOriginal.setTipo(0);
+                }else{
+                    if(adapterProductoOriginal.getTipo() == 2){
+                        // Oculta codigo , precio y button
+                        layout_contenido_productoVenta.setVisibility(View.GONE);
+                    }else if (adapterProductoOriginal.getTipo() == 1){
+                        button_SeleccionarGustos.setVisibility(View.VISIBLE);
+                    }
+                }
+
 
 
                 //Set
@@ -249,6 +287,9 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                             .into(circleImageViewProducto);
                 }else {}
 
+                // Precio
+                textview_precio.setText( Double.toString(adapterProductoOriginal.getPrecio()));
+
                 idUnicoProducto=adapterProductoOriginal.getId();
                 urlDescargarFoto=adapterProductoOriginal.getUrlimagen();
 
@@ -256,7 +297,42 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
                 textView10_nombre.setText(adapterProductoOriginal.getInfo1());
                 textview_informacion.setText(adapterProductoOriginal.getInfo2());
-                textview_precio.setText(  Double.toString(dPrecio)  );
+
+
+                // carga los gustos de la heladeria
+                final List<adapter_producto> adapter_Sabores =new ArrayList<>();
+                final Map<String,Object> listSaboresSeleccionados= new HashMap<String, Object>();
+                iCantidadSabores=0;
+
+                if(adapterProductoOriginal.getTipo() == 1){
+                    // BASE DE DATOS Gustos
+                    CollectionReference collectionReferenceGustos=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS));
+                    collectionReferenceGustos.whereEqualTo("tipo",2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+
+                                // vacia la lista para volver a llenarla
+                                adapter_Sabores.removeAll(adapter_Sabores);
+
+                                for(DocumentSnapshot documentSnapshot : task.getResult()){
+                                    if(documentSnapshot.exists()){
+                                        // Constructor
+                                        adapter_producto adapterProducto=documentSnapshot.toObject(adapter_producto.class);
+
+                                        adapterProducto.setClickalble( false );
+                                        adapter_Sabores.add(adapterProducto);
+
+
+
+                                    }
+                                }
+
+                            }
+
+                        }
+                    });
+                }
 
                 // Button OnClick
                 imageButton_Exit.setOnClickListener(new View.OnClickListener() {
@@ -298,11 +374,123 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                     @Override
                     public void onClick(View v) {
 
-                        adapterProductoOriginal.setCantidad(iCantidad);
+                        final Map<String,Object> informacion_pedido= new HashMap<String, Object>();
+                        informacion_pedido.put("cantidad",iCantidad);
+
+                        // Sabores de pote de helado
+                        if(adapterProductoOriginal.getTipo() == 1){
+                            informacion_pedido.put("gustos",listSaboresSeleccionados);
+                        }
+
+                        // Contructor lista pedidos
+                        adapterProductoOriginal.setInfopedido(informacion_pedido);
 
                         // Carga el producto a la liste de pedidos
                         SistemaPedidos(adapterProductoOriginal);
                         dialog.dismiss();
+
+                    }
+                });
+
+                button_SeleccionarGustos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialoglayout = inflater.inflate(R.layout.view_pedido_seleccionar_gustos, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_productos.this);
+                        builder.setView(dialoglayout);
+                        final AlertDialog alertDialogHors;
+                        alertDialogHors = builder.show();
+
+                        // Reference
+                        final TextView textViewCantidadSabores=(TextView) dialoglayout.findViewById(R.id.textView43);
+                        Button button_OK=(Button) dialoglayout.findViewById(R.id.button14_ok);
+
+                        ////////////////////////////  PRODUCTO
+                        final RecyclerView recyclerViewSabores;
+                        final adapter_recyclerView_Sabores adapter_recyclerView_Sabores;
+
+                        //---Click en el item seleccionado
+                        recyclerViewSabores =(RecyclerView) dialoglayout.findViewById(R.id.recyclerview_gustos);
+                        recyclerViewSabores.setLayoutManager(new GridLayoutManager(MainActivity_productos.this,4));
+                        //--Adaptadores
+                        adapter_recyclerView_Sabores =new adapter_recyclerView_Sabores(adapter_Sabores,MainActivity_productos.this);
+                        recyclerViewSabores.setAdapter(adapter_recyclerView_Sabores);
+
+                        adapter_recyclerView_Sabores.notifyDataSetChanged();
+
+                        // OnClick
+                        adapter_recyclerView_Sabores.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            protected void finalize() throws Throwable {
+                                super.finalize();
+                            }
+
+                            @Override
+                            public void onClick(View view) {
+
+
+
+                                //Extrae la id de la reseña
+                                final adapter_producto adapterProductoOriginal = adapter_Sabores.get(recyclerViewSabores.getChildAdapterPosition(view));
+
+                                // Selecciona el item
+                                if(adapterProductoOriginal.getClickalble() == true ){
+
+
+                                    adapter_Sabores.get(recyclerViewSabores.getChildAdapterPosition(view)).setClickalble(false);
+
+                                }else if(adapterProductoOriginal.getClickalble() == false){
+
+                                    // condicional ( )
+                                    if(iCantidadSabores < iLimiteCantidadSabores){
+                                        adapter_Sabores.get(recyclerViewSabores.getChildAdapterPosition(view)).setClickalble(true);
+
+                                    }else{ Toast.makeText(MainActivity_productos.this,"No puedes seleccionar mas de 3 gustos",Toast.LENGTH_SHORT).show(); }
+
+                                }
+
+                                adapter_recyclerView_Sabores.notifyDataSetChanged();
+
+
+                                iCantidadSabores=0;
+                                for(adapter_producto adapterProducto : adapter_Sabores){
+                                    if(adapterProducto.getClickalble() == true){
+                                        iCantidadSabores+=1;
+                                    }
+                                }
+                                textViewCantidadSabores.setText(String.valueOf( iCantidadSabores )+"-"+String.valueOf( iLimiteCantidadSabores ));
+
+
+                            }
+                            });
+
+                        button_OK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                listSaboresSeleccionados.clear();
+                                // condicional ( )
+                                if(iCantidadSabores == iLimiteCantidadSabores){
+                                    for(adapter_producto adapterProducto : adapter_Sabores){
+                                        if(adapterProducto.getClickalble() == true){
+                                            listSaboresSeleccionados.put(adapterProducto.getId(),adapterProducto.getInfo2());
+                                        }
+                                    }
+
+                                    // Finaliza
+                                    alertDialogHors.dismiss();
+
+                                }else { Toast.makeText(MainActivity_productos.this,"Debes seleccionar 3 gustos ",Toast.LENGTH_SHORT).show(); }
+
+                            }
+                        });
+
+
+
+
 
                     }
                 });
@@ -442,7 +630,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                     for(adapter_producto adapterProducto: adapter_productoListPedidos){
 
                         // Multiplica el precio del prodcuto  por la cantidad
-                        dTotalPrecio+=adapterProducto.getPrecio()*adapterProducto.getCantidad();
+                        int iCantidad=(int) adapterProducto.getInfopedido().get("cantidad");
+                        dTotalPrecio+=adapterProducto.getPrecio()* iCantidad ;
 
                         // set
                         textView_PrecioTotal.setText(Double.toString(dTotalPrecio));
@@ -474,7 +663,9 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View v) {
 
+
                 Intent Lanzador1=new Intent(MainActivity_productos.this,MainActivity_negocios_formulario_pedidos.class);
+                //Lanzador1.putExtra("ID_NEGOCIO", ID_NEGOCIO);
                 Lanzador1.putExtra("ID_NEGOCIO", ID_NEGOCIO);
                 startActivity(Lanzador1);
 

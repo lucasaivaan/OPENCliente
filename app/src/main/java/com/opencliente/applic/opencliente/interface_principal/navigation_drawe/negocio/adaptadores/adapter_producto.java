@@ -1,5 +1,8 @@
 package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class adapter_producto {
 
 
@@ -12,12 +15,18 @@ public class adapter_producto {
     private Double precio=0.0;
     private String id="";
     private String codigo="";
-    private Integer cantidad;
+    private Integer tipo;   //  0= ventas 1= venta de pote de helado con opciones de gustos de helado  3= gustos de helado
+    private Boolean Clickalble=false;
+    private Map<String,Object> infopedido= new HashMap<String, Object>();
 
 
-    public Integer getCantidad() { return cantidad; }
-    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
 
+    public Map<String, Object> getInfopedido() { return infopedido; }
+    public void setInfopedido(Map<String, Object> infopedido) { this.infopedido = infopedido; }
+    public Boolean getClickalble() { return Clickalble; }
+    public void setClickalble(Boolean clickalble) { Clickalble = clickalble; }
+    public Integer getTipo() { return tipo; }
+    public void setTipo(Integer tipo) { this.tipo = tipo; }
     public String getCodigo() { return codigo; }
     public void setCodigo(String codigo) { this.codigo = codigo; }
     public void setUrlimagen(String urlimagen) { this.urlimagen = urlimagen; }

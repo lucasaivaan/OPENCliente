@@ -1,4 +1,4 @@
-package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.adaptadores;
+package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores;
 
 
 import android.support.v7.widget.RecyclerView;

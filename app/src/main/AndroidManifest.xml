@@ -98,12 +98,13 @@
             android:name=".interface_principal.navigation_drawe.perfil.Activity_Profile_Edit"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_productos"
+            android:name=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_productos"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".interface_principal.navigation_drawe.negocio.galeria_fotos" />
-        <activity android:name=".interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_negocios_formulario_pedidos" />
-        <activity android:name=".interface_principal.navigation_drawe.negocio.cuenta.SistemaPedidos.MainActivity_negocios_formulario_direccion"></activity>
+        <activity android:name=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_negocios_formulario_pedidos" />
+        <activity android:name=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_negocios_formulario_direccion" />
+        <activity android:name=".interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_negocios_Lista_Pedidos"></activity>
     </application>
 
 </manifest>

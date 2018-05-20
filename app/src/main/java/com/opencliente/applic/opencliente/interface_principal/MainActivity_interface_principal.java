@@ -31,10 +31,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import android.support.design.widget.NavigationView;
@@ -94,6 +92,7 @@ import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapte
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_recyclerView_Ofertas;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.OnSwipeTouchListener;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.MainActivity_negocios_Lista_Pedidos;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.perfil.Activity_Profile;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_principal;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.informacion.informacion_open;
@@ -137,6 +136,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     public  LinearLayout not_no_internet;
     protected LottieAnimationView animation_view_load;
 
+    private LinearLayout layout_noti_pedido;
     private LinearLayout LinealLayout_ContentFond_Store;
     private CardView toolbar_cardview_seach;
     private  EditText editText_Toolbar_Seach;
@@ -284,13 +284,13 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-
         fragmentManager = getSupportFragmentManager();
         //---Fragment
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
+
                 switch (id) {
                     case R.id.navigation_home:
                         include_home.setVisibility(View.VISIBLE);
@@ -315,6 +315,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         include_ofertas.setVisibility(View.VISIBLE);
                         include_maps.setVisibility(View.GONE);
                         toolbar_cardview_seach.setVisibility(View.GONE);
+
+
                         break;
                     case R.id.navigation_maps:
                         include_home.setVisibility(View.GONE);
@@ -340,6 +342,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
         //------------------------------------------------------------------------------------------
 
         //Reference
+        layout_noti_pedido=(LinearLayout) findViewById(R.id.layout_noti_pedido);
+        layout_noti_pedido.setVisibility(View.GONE);
         LinealLayout_ContentFond_Store=(LinearLayout) findViewById(R.id.LinealLayout_ContentFond_Store);
         tToolbsrTituloTarjetas =(TextView) findViewById(R.id.textView14);
         not_no_internet=(LinearLayout) findViewById(R.id.not_no_internet);
@@ -403,6 +407,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
         // LISTA DE TARJETAS
         Carga_Recyclerview_tarjetas();
+        Cargar_pedidos();
 
     }
 
@@ -714,6 +719,39 @@ public class MainActivity_interface_principal extends AppCompatActivity
         });
 
 
+
+    }
+    private void Cargar_pedidos(){
+
+        // Firesote
+        CollectionReference collectionReference=dbListNegocios.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid()).collection(  getString(R.string.DB_PEDIDOS)  );
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot task,@Nullable FirebaseFirestoreException e) {
+                        // Control de visivilidad
+                        layout_noti_pedido.setVisibility(View.GONE);
+
+                        for (DocumentSnapshot doc : task) {
+                            if (doc.exists()) {
+
+                                // Control de visivilidad
+                                layout_noti_pedido.setVisibility(View.VISIBLE);
+                                break;
+                            }
+
+                        }
+
+                    }
+                });
+
+        // onClick
+        layout_noti_pedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Lanzador1=new Intent(MainActivity_interface_principal.this,MainActivity_negocios_Lista_Pedidos.class);
+                startActivity(Lanzador1);
+            }
+        });
 
     }
 

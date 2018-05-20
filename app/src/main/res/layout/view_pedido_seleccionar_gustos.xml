@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/seleccionar_gustos"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_gustos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/button14_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_light_green_300"
+        android:text="@android:string/ok"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp" />
+</LinearLayout>
