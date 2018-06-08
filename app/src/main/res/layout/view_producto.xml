@@ -6,168 +6,152 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:elevation="8dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
-        app:cardCornerRadius="15dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_shadow_end_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/places_ic_clear" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/FloatimageView_producto"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_below="@+id/progressBar2"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="2dp"
+                android:src="@color/texto_terciario2"
+                app:civ_border_color="#f5f5f5"
+                app:civ_border_width="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView10_nombre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView10_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/cardview_light_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FloatimageView_producto" />
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/informacion"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textview_informacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/informacion"
+                android:text='""'
+                android:textAlignment="center"
+                android:textColor="@color/cardview_dark_background"
+                android:textColorHint="@color/texto_principal"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_contenido_productoVenta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
 
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                android:padding="10dp">
-
-                <ImageButton
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/cardview_shadow_end_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/places_ic_clear" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar2"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="153dp"
-                    android:layout_height="67dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:elevation="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/FloatimageView_producto"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/FloatimageView_producto" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/FloatimageView_producto"
-                    android:layout_width="125dp"
-                    android:layout_height="125dp"
-                    android:layout_below="@+id/progressBar2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="8dp"
-                    android:elevation="2dp"
-                    android:src="@drawable/ic_launcher_background"
-                    app:civ_border_color="#f5f5f5"
-                    app:civ_border_width="4dp"
-                    app:layout_constraintBottom_toTopOf="@+id/textView10_nombre"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView10_nombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="10dp"
-                    android:text="TextView"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/cardview_light_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/FloatimageView_producto" />
-            </android.support.constraint.ConstraintLayout>
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textView53"
+                    android:id="@+id/textView40"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/informacion"
-                    android:textAlignment="center" />
+                    android:layout_weight="6"
+                    android:text="$"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="36sp" />
 
                 <TextView
-                    android:id="@+id/textview_informacion"
-                    android:layout_width="match_parent"
+                    android:id="@+id/textview_precio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/informacion"
-                    android:text='""'
                     android:textAlignment="center"
                     android:textColor="@color/cardview_dark_background"
                     android:textColorHint="@color/texto_principal"
-                    android:textSize="18sp" />
+                    android:textSize="36sp"
+                    tools:text="0" />
+
             </LinearLayout>
 
-
             <LinearLayout
-                android:id="@+id/layout_contenido_productoVenta"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textview_codigo"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textColorHint="@color/texto_principal" />
 
-                    <TextView
-                        android:id="@+id/textView40"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        android:text="$"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textSize="36sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/textview_precio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textColorHint="@color/texto_principal"
-                        android:textSize="36sp"
-                        tools:text="0" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textview_codigo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:textAlignment="center"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textColorHint="@color/texto_principal" />
-
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_sistemaPedidos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/button_seleccionarGustos"
@@ -177,52 +161,50 @@
                     android:text="@string/seleccionar_gustos"
                     android:textColor="@color/cardview_light_background" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cantidad"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/cardview_dark_background" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_menos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/cardview_shadow_start_color"
+                        android:text="-"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView_numeroCamtidad"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cantidad"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="1"
                         android:textAlignment="center"
-                        android:textAllCaps="true"
-                        android:textColor="@color/cardview_dark_background" />
+                        android:textSize="24sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/button_menos"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:text="-"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:id="@+id/textView_numeroCamtidad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:text="1"
-                            android:textAlignment="center"
-                            android:textSize="24sp" />
-
-                        <Button
-                            android:id="@+id/button_mas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:text="+"
-                            android:textSize="24sp" />
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/button_mas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/cardview_shadow_start_color"
+                        android:text="+"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <Button
@@ -231,13 +213,14 @@
                     android:layout_height="wrap_content"
                     android:background="@color/md_green_300"
                     android:text="@string/agregar_producto"
-                    android:textColor="@color/cardview_light_background" />
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
-
-
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
 
 </LinearLayout>

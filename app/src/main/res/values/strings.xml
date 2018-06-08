@@ -21,13 +21,15 @@
     <string name="DB_SERVICIOS">SERVICIOS</string>
     <string name="DB_OFERTAS">OFERTAS</string>
 
-
+    <string name="DB_sistema_pedido">sistema_pedidos</string>
+    <string name="DB_CONFIGURACION">CONFIGURACION</string>
     <string name="DB_CUENTA">CUENTA</string>
 
-    //Chat
+    //
     <string name="DB_mensaje_nuevo">mensaje_nuevo</string>
     <string name="DB_ultimo_mensaje">ultimo_mensaje</string>
-
+    <string name="DB_retiro_negocio">retiro_local</string>
+    <string name="DB_delivery">delivery</string>
 
     //MENSAJE
     <string name="DB_mensaje">mensaje</string>
@@ -283,6 +285,8 @@
     <string name="pendiente">Pendiente</string>
     <string name="confirmado">Confirmado</string>
     <string name="seleccionar_gustos">Seleccionar los gustos</string>
+    <string name="retiro_en_el_negocio">Retiro en el negocio</string>
+    <string name="gracias_por_su_opinion">Gracias por su opinión</string>
     <!-- _______________________________________________________________________________________ -->
 
 

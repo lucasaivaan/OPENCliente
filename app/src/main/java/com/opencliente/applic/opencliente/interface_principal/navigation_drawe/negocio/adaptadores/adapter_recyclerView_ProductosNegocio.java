@@ -50,9 +50,14 @@ public class adapter_recyclerView_ProductosNegocio extends RecyclerView.Adapter<
         final adapter_producto adapterProducto= adapter_productoList.get(position);
 
         if(adapterProducto.getInfo1() != null){
+
+            // marca
             holder.datoMarca.setText(adapterProducto.getInfo1());
+
+            // Descripcion
             holder.datoInfo.setText(adapterProducto.getInfo2());
 
+            // precio
             if(adapterProducto.getPrecio() ==null){
                 holder.datoPrecio.setVisibility(View.GONE);
             }else {
@@ -60,6 +65,7 @@ public class adapter_recyclerView_ProductosNegocio extends RecyclerView.Adapter<
 
             }
 
+            // Imagen del producto
             if(!adapterProducto.getUrlimagen().equals("default")){
                 Glide.with(context)
                         .load(adapterProducto.getUrlimagen())
@@ -68,7 +74,10 @@ public class adapter_recyclerView_ProductosNegocio extends RecyclerView.Adapter<
                         .into(holder.ImageProducto);
             }
 
-
+            // si el tipo e producto es un sabor de helado
+            if(adapterProducto.getTipo() == 2){
+                holder.datoPrecio.setVisibility(View.GONE);
+            }
 
         }
 

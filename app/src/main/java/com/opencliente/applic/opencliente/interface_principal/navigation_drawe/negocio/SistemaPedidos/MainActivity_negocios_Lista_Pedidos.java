@@ -86,7 +86,7 @@ public class MainActivity_negocios_Lista_Pedidos extends AppCompatActivity {
 
                 switch (adapterProductoOriginal.getEstado()){
                     case 0: // Pedido Pendiente
-                        options=new CharSequence[] {getResources().getString(R.string.editar), getResources().getString(R.string.cancelar_pedido)};
+                        options=new CharSequence[] { getResources().getString(R.string.cancelar_pedido)};
 
                         // alertDialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_negocios_Lista_Pedidos.this);

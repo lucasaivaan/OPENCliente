@@ -11,7 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:gravity="center"
         android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/Anim_loading"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="anim_loading.json"
+            app:lottie_imageAssetsFolder="assets"
+            app:lottie_loop="true" />
 
         <TextView
             android:id="@+id/textView20"
@@ -20,6 +31,7 @@
             android:layout_margin="10dp"
             android:text="@string/no_ahi_horario_definido"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView

@@ -45,6 +45,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -141,6 +142,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     private CardView toolbar_cardview_seach;
     private  EditText editText_Toolbar_Seach;
     private TextView tToolbsrTituloTarjetas;
+    private ImageView Button_SeachToolbar;
 
     private LottieAnimationView anim_seach;
 
@@ -299,11 +301,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         toolbar_cardview_seach.setVisibility(View.VISIBLE);
 
 
-                        if(  !tToolbsrTituloTarjetas.getText().toString().equals(getResources().getString(R.string.tus_tarjetas)) ){
+                        if(  !editText_Toolbar_Seach.getText().toString().equals("") ){
 
                             // Titulo Toolbar
                             tToolbsrTituloTarjetas.setText(getResources().getString(R.string.tus_tarjetas));
-
+                            editText_Toolbar_Seach.setText("");
                             // Carga la lista de tarjetas
                             Carga_Recyclerview_tarjetas();
 
@@ -352,16 +354,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
         editText_Toolbar_Seach=(EditText) findViewById(R.id.editText2_seach);
         anim_seach=(LottieAnimationView) findViewById(R.id.anim_seach);
         anim_seach.pauseAnimation();
+        Button_SeachToolbar=(ImageView) findViewById(R.id.Button_SeachToolbar);
 
-
-        editText_Toolbar_Seach.addTextChangedListener(new TextWatcher() {
+        Button_SeachToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
                 if(!editText_Toolbar_Seach.getText().toString().equals("")){
                     anim_seach.setVisibility(View.VISIBLE);
                     anim_seach.playAnimation();
@@ -370,15 +367,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                     // Buscador
                     Toolbar_Seach(editText_Toolbar_Seach.getText().toString());
-                }else {
-                    anim_seach.setVisibility(View.GONE);
-                    anim_seach.pauseAnimation();
-
-                    tToolbsrTituloTarjetas.setText(getResources().getString(R.string.tus_tarjetas));
-                    Carga_Recyclerview_tarjetas();
                 }
             }
         });
+
 
         /////////////////////////////// OFERTA /////////////////////////////////////////////////////
         //------------------------------ Touch event -----------------------------------------------
@@ -680,12 +672,14 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                                 //--Asigna el adaptador al recyclerView
                                 NegociosListArray.add(AdaptadorItemPerlfilNegocio);//Agrega perfil del negocio al RecyclerView
-                                adapterRecyclerViewHome.notifyDataSetChanged();
+
 
                                 carga_Ofertas(doc.getId());
                             }
 
                         }
+                        adapterRecyclerViewHome.notifyDataSetChanged();
+
                     }
                 });
     }

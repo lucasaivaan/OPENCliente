@@ -1,6 +1,7 @@
 package com.opencliente.applic.opencliente.interface_principal.adaptadores;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.opencliente.applic.opencliente.R;
 
 import java.text.SimpleDateFormat;
@@ -27,12 +32,13 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
     List<adapter_review> adapter_reviews;
     protected adapter_review adapterReseña;
-
-
+    private Context context;
     private View.OnClickListener listener;
+    private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
 
-    public adapter_recyclerView_Reseñas(List<adapter_review> List_business) {
+    public adapter_recyclerView_Reseñas(List<adapter_review> List_business , Context context) {
         this.adapter_reviews = List_business;
+        this.context=context;
     }
 
 
@@ -48,14 +54,48 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
 
     @Override
-    public void onBindViewHolder(adapter_recyclerView_Reseñas.homeViwHolder holder, int position) {
+    public void onBindViewHolder(final adapter_recyclerView_Reseñas.homeViwHolder holder, int position) {
         adapterReseña= adapter_reviews.get(position);
+
+        firestore.collection( context.getResources().getString(R.string.DB_CLIENTES) ).document( adapterReseña.getId() )
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc_perfilUsuario=task.getResult();
+                    if(doc_perfilUsuario.exists()){
+                        adapter_profile_clientes adapterProfileClientes=doc_perfilUsuario.toObject(adapter_profile_clientes.class);
+
+                        // Imagen de perfil
+                        Glide.clear(holder.circleImageView);
+                        // foto perfil
+                        if(!adapterProfileClientes.getUrlfotoPerfil().equals("default")){
+
+                            // Descarga la imagen de internet
+                            try {
+                                Context context = holder.circleImageView.getContext();
+                                Glide.with(context).load(adapterProfileClientes.getUrlfotoPerfil())
+                                        .fitCenter()
+                                        .centerCrop()
+                                        .into( holder.circleImageView);
+                            }catch (Exception ex){ holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);}
+
+                        }else {
+                            // Asigna una imagen por defecto
+                            holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);
+                        }
+
+                        // Nombre
+                        holder.dato1.setText(adapterProfileClientes.getNombre());
+
+                    }
+                }
+            }
+        });
 
         try{
 
-            Glide.clear(holder.circleImageView);
-
-            holder.dato1.setText(adapterReseña.getNombre());
+            // Reseña
             holder.dato2.setText(adapterReseña.getReseña());
 
             //fecha
@@ -64,35 +104,7 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
             // hora
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
-
             holder.dato3.setText(sdf.format(adapterReseñaTimestamp.getTime())+" "+format1.format(adapterReseñaTimestamp.getTime()));
-
-            // foto perfil
-            if(adapterReseña.getFotoPerfil() != null){
-
-                //Asignacion de icono de la categoria
-                Context context = holder.circleImageView.getContext();
-                int id = context.getResources().getIdentifier("logo_"+ adapterReseña.getFotoPerfil(), "mipmap", context.getPackageName());
-                holder.circleImageView.setBackgroundResource(id);
-
-            }else{
-
-                if(!adapterReseña.getUrlfotoPerfil().equals("default")){
-
-                    // Descarga la imagen de internet
-                    try {
-                        Context context = holder.circleImageView.getContext();
-                        Glide.with(context).load(adapterReseña.getUrlfotoPerfil())
-                                .fitCenter()
-                                .centerCrop()
-                                .into( holder.circleImageView);
-                    }catch (Exception ex){ holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);}
-
-                }else {
-                    // Asigna una imagen por defecto
-                    holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);
-                }
-            }
 
             // Reseña positiva o negativa
             if(adapterReseña.getEstrellas() != null){

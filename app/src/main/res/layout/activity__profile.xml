@@ -41,7 +41,7 @@
             <LinearLayout
                 android:id="@+id/layout_Cardstylo"
                 android:layout_width="match_parent"
-                android:layout_height="244dp"
+                android:layout_height="254dp"
                 android:background="@mipmap/card_style_1"
                 android:elevation="1dp"
                 android:gravity="center_horizontal"

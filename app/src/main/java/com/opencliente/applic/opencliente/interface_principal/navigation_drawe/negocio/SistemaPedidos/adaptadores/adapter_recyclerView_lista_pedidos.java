@@ -70,11 +70,18 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                         public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                             if(documentSnapshot.exists()){
                                 // Adaptador
-                                adaptador_pedido adaptadorPedido=documentSnapshot.toObject(adaptador_pedido.class);
+                                adaptador_pedido adaptadorPedido=documentSnapshot.toObject(  adaptador_pedido.class  );
                                 ListPedidos.get(position).setEstado(adaptadorPedido.getEstado());
 
-                                // Tipo de entrega
-                                holder.tTipoEntrega.setText(adaptadorPedido.getTipo_entrega());
+                                // Tipo de entrega   1=Retira personalmente  2=Delivery
+                                if( adaptadorPedido.getTipo_entrega() == 1){
+                                    holder.tTipoEntrega.setText(  context.getResources().getString(R.string.retiro_en_el_negocio)  );
+                                }else if( adaptadorPedido.getTipo_entrega() == 2){
+                                    holder.tTipoEntrega.setText(  context.getResources().getString(R.string.delivery)  );
+                                }
+
+                                // Hora de retiro en el negocio
+                                holder.textView_HoraRetiro.setText( adaptadorPedido.getHora() );
 
                                 // Estado del pedido
                                 if(adaptadorPedido.getEstado() != null ){
@@ -238,7 +245,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         CircleImageView profile_image;
-        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado;
+        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado,textView_HoraRetiro;
 
         public homeViwHolder(View itemView) {
             super(itemView);
@@ -247,6 +254,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
             tCantidadProducto=(TextView) itemView.findViewById(R.id.textView42);
             tHora=(TextView) itemView.findViewById(R.id.textView41);
             tEstado=(TextView) itemView.findViewById(R.id.textView_estado);
+            textView_HoraRetiro=(TextView) itemView.findViewById(R.id.textView_HoraRetiro);
 
 
             profile_image=(CircleImageView) itemView.findViewById(R.id.profile_image);

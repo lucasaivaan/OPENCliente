@@ -69,6 +69,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="24dp"
                         android:padding="10dp"
+                        app:cardBackgroundColor="@color/cardview_light_background"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="1dp">
 
@@ -119,7 +120,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="28dp"
                     android:layout_margin="5dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
@@ -128,6 +129,7 @@
                     android:gravity="center"
                     android:onClick="ButtonAgregarNegocio"
                     android:text="@string/agregar_negocio"
+                    android:textAllCaps="true"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -138,8 +140,8 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/fab"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:onClick="ButtonAgregarNegocio"

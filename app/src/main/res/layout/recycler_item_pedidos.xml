@@ -32,7 +32,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_margin="5dp"
-                    android:src="@mipmap/logo_maxikiosco"
+                    android:src="@color/cardview_shadow_start_color"
                     app:civ_border_color="#ffffff"
                     app:civ_border_width="2dp" />
 
@@ -42,19 +42,49 @@
                     android:layout_margin="5dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView39"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/tipo_entrega" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView39"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:text="@string/tipo_entrega"
+                            android:textAllCaps="true"
+                            android:textColor="@color/texto_principal" />
+
+                        <TextView
+                            android:id="@+id/textView_HoraRetiro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:text="00:00"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/texto_terciario"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textView45"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:text="Hs"
+                            android:textColor="@color/texto_terciario"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textView42"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/cantidad" />
+                        android:text="@string/cantidad"
+                        android:textColor="@color/texto_terciario" />
 
                     <TextView
                         android:id="@+id/textView41"
@@ -63,6 +93,7 @@
                         android:layout_weight="1"
                         android:text="@string/horario_entrega"
                         android:textAlignment="textEnd"
+                        android:textColor="@color/texto_terciario"
                         android:textSize="10sp" />
 
                 </LinearLayout>
@@ -79,7 +110,9 @@
                 android:text="@string/pendiente"
                 android:textAlignment="center"
                 android:textAllCaps="true"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_shadow_start_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

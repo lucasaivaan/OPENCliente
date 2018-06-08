@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/service_cobroexpress_titulo"
                 android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="18sp" />
 

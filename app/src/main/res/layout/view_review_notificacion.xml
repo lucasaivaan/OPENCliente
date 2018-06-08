@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Gracias por su opinion"
+        android:text="@string/gracias_por_su_opinion"
         android:textAlignment="center"
         android:textColor="@color/texto_principal"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/button_ok"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_verde"
         android:text="OK"

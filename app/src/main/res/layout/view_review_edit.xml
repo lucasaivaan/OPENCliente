@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/reseña"
         android:textAlignment="center"
+        android:textAllCaps="true"
         android:textColor="@color/texto_principal"
         android:textSize="30sp" />
 

@@ -197,6 +197,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
     public LinearLayout buttonAddNegocio;
     public LinearLayout lTolbar;
     public Button buttonChat;
+    private Button button_VerProductos;
 
 
     //--TextView
@@ -258,6 +259,8 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        //---Reference
+        // Button
+        button_VerProductos=(Button) findViewById(R.id.button7);
 
         //animacion
         animationUptodown = AnimationUtils.loadAnimation(this,R.anim.uptodown);//aparece de arriba a su posision
@@ -427,6 +430,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             LoadImageGalery(IdBusiness);
                             LoadReseñas(IdBusiness);
                             notificacionMensajeNuevo(IdBusiness);
+                            ComprobarProductosNegocio(IdBusiness);
 
                             // ToolBar
                             //imagen del negocio
@@ -499,6 +503,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                                     LoadReseñas(IdBusiness);
                                     LoadBusinessMakerMaps(IdBusiness);
                                     notificacionMensajeNuevo(IdBusiness);
+                                    ComprobarProductosNegocio(IdBusiness);
 
                                     //Referencia drawable mediante un string
                                     Context context = imageView_iconStrore.getContext();
@@ -614,6 +619,22 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         });
 
     }
+    public  void ComprobarProductosNegocio(String ID_NEGOCIO){
+        CollectionReference collectionReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS));
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    button_VerProductos.setVisibility(View.GONE);
+                    for (DocumentSnapshot doc:task.getResult()){
+                        button_VerProductos.setVisibility(View.VISIBLE);
+                        break;
+                    }
+
+                }
+            }
+        });
+    }
 
     public void notificacionMensajeNuevo(String idBusiness){
 
@@ -663,7 +684,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
 
                             // funcion de viste de la imagen
-                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
+                            vista_Imagen(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -684,7 +705,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
 
                             // funcion de viste de la imagen
-                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
+                            vista_Imagen(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -703,7 +724,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
 
                             // funcion de viste de la imagen
-                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
+                            vista_Imagen(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -722,7 +743,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
 
                             // funcion de viste de la imagen
-                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
+                            vista_Imagen(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -741,7 +762,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
 
                             // funcion de viste de la imagen
-                            ViewImagenGalery(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
+                            vista_Imagen(adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario() );
                         }
                     }
                 });
@@ -755,7 +776,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
 
     }
-    public void ViewImagenGalery(String sUrl,String sComentario){
+    public void vista_Imagen(String sUrl, String sComentario){
         //Crear AlertDialog Hors
         LayoutInflater inflater = getLayoutInflater();
         View dialoglayout = inflater.inflate(R.layout.view_galery_photo, null);
@@ -766,6 +787,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         ImageView imageViewFoto=(ImageView) dialoglayout.findViewById(R.id.imageView_galery_foto);
         final TextView textView_Comentario =(TextView) dialoglayout.findViewById(R.id.textView_comentario);
         ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
+        LottieAnimationView anim_loading=(LottieAnimationView) dialoglayout.findViewById(R.id.Anim_loading);
 
         // Condiciones
         if(sComentario.equals("")){
@@ -920,7 +942,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         recyclerViewReseñas.setLayoutManager(new LinearLayoutManager(this));
         //--Adaptadores
         adapter_reviews = new ArrayList<>();
-        adapter_recyclerView_reseñas = new adapter_recyclerView_Reseñas(adapter_reviews);
+        adapter_recyclerView_reseñas = new adapter_recyclerView_Reseñas(adapter_reviews,MainActivity_lauch_Store.this);
         recyclerViewReseñas.setAdapter(adapter_recyclerView_reseñas);
 
         //OnClick
@@ -1188,6 +1210,8 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
         //Notificacion TextView
         notific_no_hors=(TextView) dialoglayout.findViewById(R.id.textView20);
+        notific_no_hors.setVisibility(View.GONE);
+        final LottieAnimationView anim_loading=(LottieAnimationView) dialoglayout.findViewById(R.id.Anim_loading);
 
 
         ////////////////////////////////////Adaptador Navigation  Horarios //////////////////////////////////////////////////////
@@ -1211,12 +1235,18 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                     for(DocumentSnapshot doc:task.getResult()){
                         notific_no_hors.setVisibility(View.GONE);
+                        anim_loading.setVisibility(View.GONE);
                         //---Carga todos los datos en el adaptador de Servicios al adaptador
                         adapter_horario adapterServicios = doc.toObject(adapter_horario.class);
                         adapterHorarios.add(adapterServicios);
                     }
                     adapterRecyclerViewHorarios.notifyDataSetChanged();
                 }else{}
+
+                if(adapterHorarios.size() == 0){
+                    notific_no_hors.setVisibility(View.VISIBLE);
+                    anim_loading.setVisibility(View.VISIBLE);
+                }
 
             }
         });

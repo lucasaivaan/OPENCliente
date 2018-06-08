@@ -1,6 +1,7 @@
 package com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,6 +40,7 @@ import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.n
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +59,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
 
     // String Datos
     private String sContacto;
-    private String sTipoEntrega;
+    private Integer intTipoEntrega;
     private Object objDireccion;
     private String sHorario;
     private String sFormaPago;
@@ -70,6 +74,9 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
 
     // Spinner
     private Spinner spinnerTipoPedido;
+    private Spinner spinner_horarios;
+    private Boolean estado_Delivery;
+    private Boolean estado_RetiroPersonalmente;
 
 
     // TextView
@@ -121,8 +128,80 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
         editText_telefono=(EditText) findViewById(R.id.input_telefono);
         editText_cantidadPago=(EditText) findViewById(R.id.editText_cantidadPago);
 
-        // Spinner Tipo de pedido
+        // Spinner Hora
+        spinner_horarios=(Spinner) findViewById(R.id.spinner_horarios);
+
+        // Obtener referencia de Spinner Tipo de pedido
         spinnerTipoPedido = (Spinner) findViewById(R.id.spinneer_tipo_entrega);
+
+        // Firebase  (Configuración de pedidos)
+        DocumentReference doc_ConfPedido=firestore.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection( getResources().getString(R.string.DB_CONFIGURACION) ).document( getResources().getString(R.string.DB_sistema_pedido) );
+        doc_ConfPedido.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc_ConfPedido = task.getResult();
+                    if (doc_ConfPedido.exists()) {
+
+                        estado_Delivery=  doc_ConfPedido.getBoolean(getResources().getString(R.string.DB_delivery)) ;
+                        estado_RetiroPersonalmente= doc_ConfPedido.getBoolean(getResources().getString(R.string.DB_retiro_negocio)) ;
+
+                    }
+                }
+            }
+        });
+
+
+        // Initializing a String Array
+        String[] array_TipoPedido =getResources().getStringArray(R.array.tipo_pedidos);
+        final List<String> list_FormasPagos = new ArrayList<>(Arrays.asList(array_TipoPedido));
+
+        // Initializing an ArrayAdapter
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,list_FormasPagos){
+            @Override
+            public boolean isEnabled(int position){
+                if(position == 1)
+                {
+
+                    if(estado_RetiroPersonalmente == null){estado_RetiroPersonalmente=false;}
+                    //the second item from Spinner
+                    return estado_RetiroPersonalmente;
+                }else if(position == 2){
+
+                    if(estado_Delivery == null){estado_Delivery=false;}
+                    //the second item from Spinner
+                    return estado_Delivery;
+
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if(position==1 && estado_RetiroPersonalmente == false) {
+                    // Set the disable item text color
+                    tv.setTextColor(Color.GRAY);
+
+                }else if(position == 2 && estado_Delivery == false){
+                    // Set the disable item text color
+                    tv.setTextColor(Color.GRAY);
+
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+        };
+        // set Adapter spinner
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerTipoPedido.setAdapter(spinnerArrayAdapter);
+
+        // Onclick Spinner
         spinnerTipoPedido.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -136,7 +215,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                         layoutContenidos.setVisibility(View.GONE);
 
                         // set Dato
-                        sTipoEntrega="";
+                        intTipoEntrega =position;
 
                         break;
                     case 1:
@@ -146,7 +225,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                         layoutDireeccion.setVisibility(View.GONE);
 
                         // set Dato
-                        sTipoEntrega=spinnerTipoPedido.getItemAtPosition(position).toString();
+                        intTipoEntrega =position;
 
                         break;
                     case 2:
@@ -156,13 +235,10 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                         layoutDireeccion.setVisibility(View.VISIBLE);
 
                         // set Dato
-                        sTipoEntrega=spinnerTipoPedido.getItemAtPosition(position).toString();
+                        intTipoEntrega =position;
 
                         break;
                 }
-
-
-
             }
 
             @Override
@@ -378,7 +454,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                 mapPedido.put("id_cliente",firebaseAuth.getUid() );
                 mapPedido.put("id",ID_UNICO );
                 mapPedido.put("contacto",sContacto );
-                mapPedido.put("tipo_entrega",sTipoEntrega );
+                mapPedido.put("tipo_entrega", intTipoEntrega);
                 mapPedido.put("forma_pago", sFormaPago);
                 mapPedido.put("nota", sNota);
                 if(mapPedido != null){ mapPedido.put("direccion",mapDireccion );}else{mapPedido.put("direccion",null );}
@@ -387,6 +463,7 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                 mapPedido.put("telefono",sTelefono );
                 mapPedido.put("lista_productos",lista_productos);
                 mapPedido.put("cantidad_pago",editText_cantidadPago.getText().toString());
+                mapPedido.put("hora",spinner_horarios.getSelectedItem().toString());
 
 
                 // FIRESTORE ( Referecia DB negocio)
@@ -402,6 +479,8 @@ public class MainActivity_negocios_formulario_pedidos extends AppCompatActivity 
                 DocumentReference documentReferenceCliente=firestore.collection(  getResources().getString(R.string.DB_CLIENTES)  ).document(  firebaseAuth.getUid()  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(ID_UNICO);
                 documentReferenceCliente.set(mapPedidoCliente);
 
+
+                adapter_productoListPedidos.clear();
                 // Finaliza la activity
                 finish();
 

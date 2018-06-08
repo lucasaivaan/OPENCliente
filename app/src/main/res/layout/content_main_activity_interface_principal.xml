@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_orange_300"
+        android:elevation="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -36,6 +37,7 @@
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:background="@android:color/holo_red_light"
+        android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">

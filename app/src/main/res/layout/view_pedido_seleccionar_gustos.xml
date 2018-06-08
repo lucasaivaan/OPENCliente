@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/seleccionar_gustos"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textAllCaps="true"
+        android:textSize="18sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_gustos"

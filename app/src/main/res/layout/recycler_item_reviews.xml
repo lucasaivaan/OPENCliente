@@ -63,6 +63,7 @@
                             android:layout_gravity="right"
                             android:layout_weight="1"
                             android:text="nombre"
+                            android:textAllCaps="true"
                             android:textColor="@color/texto_secundario"
                             android:textStyle="bold"
                             cardview:layout_constraintBottom_toBottomOf="parent"

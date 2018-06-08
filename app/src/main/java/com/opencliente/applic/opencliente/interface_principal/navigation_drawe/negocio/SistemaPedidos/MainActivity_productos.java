@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +44,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.opencliente.applic.opencliente.R;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
+import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.SistemaPedidos.adaptadores.adapter_recyclerView_Sabores;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_producto;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.negocio.adaptadores.adapter_recyclerView_ProductosNegocio;
@@ -76,6 +78,9 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     private  Double dTotalPrecio;
     private int iCantidadSabores=0;
     private int iLimiteCantidadSabores=3;
+    private Boolean estado_Delivery=false;
+    private Boolean estado_RetiroPersonalmente=false;
+
 
     // RECYCLERVIEW
     public RecyclerView recyclerViewProductoPedidos;
@@ -118,7 +123,6 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     private String urlDescargarFoto;
     private byte[] bytesMapImagen;
     private String idUnicoProducto;
-    private ProgressBar progressBar_foto;
 
     private String ID_NEGOCIO;
     @Override
@@ -153,6 +157,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         CargarProductos("");
 
 
+        // EditText Buscador
         editText_Toolbar_Seach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -175,6 +180,25 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
             }
         });
+
+
+        // Firebase  (Configuración de pedidos)
+        DocumentReference doc_ConfPedido=db.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection( getResources().getString(R.string.DB_CONFIGURACION) ).document( getResources().getString(R.string.DB_sistema_pedido) );
+        doc_ConfPedido.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc_ConfPedido = task.getResult();
+                    if (doc_ConfPedido.exists()) {
+
+                        estado_Delivery=  doc_ConfPedido.getBoolean(getResources().getString(R.string.DB_delivery)) ;
+                        estado_RetiroPersonalmente= doc_ConfPedido.getBoolean(getResources().getString(R.string.DB_retiro_negocio)) ;
+
+                    }
+                }
+            }
+        });
+
     }
     //---Algoritmo de busqueda
     private boolean seach(String value,String valueSeach){
@@ -229,12 +253,11 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
 
                 //////////////////////////////// Cuadro de Dialog //////////////////////////////////
-                final Dialog dialog=new Dialog(MainActivity_productos.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setContentView(R.layout.view_producto);
-                dialog.show();
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialog = inflater.inflate(R.layout.view_producto, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_productos.this);
+                builder.setView(dialog);
+                final AlertDialog alertDialogHors = builder.show();
 
                 // Reference
                 ImageButton imageButton_Exit=(ImageButton) dialog.findViewById(R.id.imageView8);
@@ -243,12 +266,10 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 textview_informacion=(TextView) dialog.findViewById(R.id.textview_informacion);
                 textview_precio=(TextView) dialog.findViewById(R.id.textview_precio);
                 textview_codigo=(TextView) dialog.findViewById(R.id.textview_codigo);
-                progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
-                progressBar_foto.setVisibility(View.GONE);
                 layout_contenido_productoVenta=(LinearLayout) dialog.findViewById(R.id.layout_contenido_productoVenta);
                 button_SeleccionarGustos=(Button) dialog.findViewById(R.id.button_seleccionarGustos);
                 button_SeleccionarGustos.setVisibility(View.GONE);
-
+                LinearLayout layout_sistemaPedidos=(LinearLayout) dialog.findViewById(R.id.layout_sistemaPedidos);
 
                 // Cantidad
                 Button button_menos=(Button) dialog.findViewById(R.id.button_menos);
@@ -272,6 +293,11 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                     }else if (adapterProductoOriginal.getTipo() == 1){
                         button_SeleccionarGustos.setVisibility(View.VISIBLE);
                     }
+                }
+
+                // Estado (Sistema PEdidos)
+                if(estado_Delivery == false && estado_RetiroPersonalmente == false){
+                    layout_sistemaPedidos.setVisibility(View.GONE);
                 }
 
 
@@ -338,14 +364,14 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 imageButton_Exit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        alertDialogHors.dismiss();
                     }
                 });
                 button_menos.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        if(iCantidad > 0){
+                        if(iCantidad > 1){
 
                             // Cantidad
                             iCantidad-=1;
@@ -374,20 +400,45 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                     @Override
                     public void onClick(View v) {
 
-                        final Map<String,Object> informacion_pedido= new HashMap<String, Object>();
-                        informacion_pedido.put("cantidad",iCantidad);
+                        if(adapterProductoOriginal.getTipo() == 1 && listSaboresSeleccionados.size() != 0){
 
-                        // Sabores de pote de helado
-                        if(adapterProductoOriginal.getTipo() == 1){
-                            informacion_pedido.put("gustos",listSaboresSeleccionados);
+                            final Map<String,Object> informacion_pedido= new HashMap<String, Object>();
+                            informacion_pedido.put("cantidad",iCantidad);
+
+                            // Sabores de pote de helado
+                            if(adapterProductoOriginal.getTipo() == 1){
+                                informacion_pedido.put("gustos",listSaboresSeleccionados);
+                            }
+
+                            // Contructor lista pedidos
+                            adapterProductoOriginal.setInfopedido(informacion_pedido);
+
+                            // Carga el producto a la liste de pedidos
+                            SistemaPedidos(adapterProductoOriginal);
+                            alertDialogHors.dismiss();
+
+                        }else if(adapterProductoOriginal.getTipo() == 1 && listSaboresSeleccionados.size() == 0){
+                           Toast.makeText(MainActivity_productos.this,getResources().getString(R.string.seleccionar_gustos),Toast.LENGTH_SHORT).show();
                         }
 
-                        // Contructor lista pedidos
-                        adapterProductoOriginal.setInfopedido(informacion_pedido);
+                        if(adapterProductoOriginal.getTipo() == 0){
+                            final Map<String,Object> informacion_pedido= new HashMap<String, Object>();
+                            informacion_pedido.put("cantidad",iCantidad);
 
-                        // Carga el producto a la liste de pedidos
-                        SistemaPedidos(adapterProductoOriginal);
-                        dialog.dismiss();
+                            // Sabores de pote de helado
+                            if(adapterProductoOriginal.getTipo() == 1){
+                                informacion_pedido.put("gustos",listSaboresSeleccionados);
+                            }
+
+                            // Contructor lista pedidos
+                            adapterProductoOriginal.setInfopedido(informacion_pedido);
+
+                            // Carga el producto a la liste de pedidos
+                            SistemaPedidos(adapterProductoOriginal);
+                            alertDialogHors.dismiss();
+                        }else{}
+
+
 
                     }
                 });
@@ -669,7 +720,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 Lanzador1.putExtra("ID_NEGOCIO", ID_NEGOCIO);
                 startActivity(Lanzador1);
 
-                // reset
+                dialog.dismiss();
 
 
             }
@@ -677,6 +728,14 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        if(adapter_productoListPedidos.size() == 0){
+            button_Delivery.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onBackPressed() { finish(); }
