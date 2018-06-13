@@ -79,7 +79,7 @@ public class Chat_principal extends AppCompatActivity {
         recyclerViewChat =(RecyclerView) findViewById(R.id.recyclerView_Chat_principal);
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
         adapterProfileNegocios =new ArrayList<>();
-        adapterRecyclerViewChat =new adapter_recyclerView_Chat_principal(adapterProfileNegocios);
+        adapterRecyclerViewChat =new adapter_recyclerView_Chat_principal(adapterProfileNegocios,this);
         adapterRecyclerViewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

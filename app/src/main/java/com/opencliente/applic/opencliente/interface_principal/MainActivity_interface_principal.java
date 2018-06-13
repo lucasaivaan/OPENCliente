@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -53,6 +55,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -86,6 +90,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.opencliente.applic.opencliente.MainActivity_Auth;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_categoria_Negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_ofertas_negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_clientes;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
@@ -301,7 +306,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         toolbar_cardview_seach.setVisibility(View.VISIBLE);
 
 
-                        if(  !editText_Toolbar_Seach.getText().toString().equals("") ){
+                        if(  !editText_Toolbar_Seach.getText().toString().equals("") || tToolbsrTituloTarjetas.getText().toString().equals(getResources().getString(R.string.resultado)) ){
 
                             // Titulo Toolbar
                             tToolbsrTituloTarjetas.setText(getResources().getString(R.string.tus_tarjetas));
@@ -819,8 +824,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         adapter_profile_negocio ContructorItemRecycleview=doc.toObject(adapter_profile_negocio.class);
 
                         //--- Condicional de de metodo de busqueda
-                        if(seach(ContructorItemRecycleview.getNombre_negocio(),valueSeach)
-                                || seach(ContructorItemRecycleview.getCategoria(),valueSeach)){
+                        if(seach(ContructorItemRecycleview.getNombre_negocio(),valueSeach) || seach(ContructorItemRecycleview.getCategoria_nombre(),valueSeach)){
 
                             // Finaliza la animacion de busqueda
                             anim_seach.setVisibility(View.GONE);
@@ -1018,11 +1022,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             for(DocumentSnapshot documentSnapshot:task.getResult()){
 
                                 //---direccion donde se encuentras  los datos de los negocios
-                                adapter_profile_negocio ContructorItemRecycleview=documentSnapshot.toObject(adapter_profile_negocio.class);
+                                final adapter_profile_negocio ContructorItemRecycleview=documentSnapshot.toObject(adapter_profile_negocio.class);
 
                                     ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
                                     int id= icono.getIconLocationCategoria(ContructorItemRecycleview.getCategoria(),MainActivity_interface_principal.this);
-                                    BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id); //convert bitmap
+                                    final BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id); //convert bitmap
 
 
                                     //Localización de de la ciudad
@@ -1030,18 +1034,60 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                     Geocoder geo = new Geocoder(contextGeocode);
                                     List<Address> addresses = geo.getFromLocation(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude(), 1);
                                     List<Address> addressesGps = geo.getFromLocation(mGoogleMap.getMyLocation().getLatitude(), mGoogleMap.getMyLocation().getLongitude(), 1);
-                                    if (addresses.isEmpty()) {
-                                    }
+                                    if (addresses.isEmpty()) { }
                                     else {if (addresses.size() > 0) {
 
                                         // Condicion carga todos los mark del estado/provincia
                                         if(addressesGps.get(0).getAdminArea().equals(addresses.get(0).getAdminArea())){
-                                            //---Crea los Makers
-                                            mGoogleMap.addMarker(new MarkerOptions()
-                                                    .position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))
-                                                    .title(ContructorItemRecycleview.getNombre_negocio())
-                                                    .snippet(ContructorItemRecycleview.getCiudad()+" ("+ContructorItemRecycleview.getDireccion()+")")).setIcon(icon);
+
+                                            // icono
+                                            // Firebase DB categorias
+                                            FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                                            firestore_categoria.collection( getString(R.string.DB_APP) ).document( ContructorItemRecycleview.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( ContructorItemRecycleview.getCategoria() )
+                                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        DocumentSnapshot documentSnapshot=task.getResult();
+                                                        if( documentSnapshot.exists() ){
+
+                                                            // adapter
+                                                            adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+
+                                                            // Glide Descarga de iamgen
+                                                            Glide.with(getBaseContext())
+                                                                    .load(categoriaNegocio.getIcon_location())
+                                                                    .asBitmap()
+                                                                    .fitCenter()
+                                                                    .override(65,65)
+                                                                    .into(new SimpleTarget<Bitmap>(65,65) {
+                                                                        @Override
+                                                                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                                                                            //---Crea los Makers
+                                                                            mGoogleMap.addMarker(new MarkerOptions()
+                                                                                    .position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))
+                                                                                    .title(ContructorItemRecycleview.getNombre_negocio())
+                                                                                    .snippet(ContructorItemRecycleview.getCiudad()+" ("+ContructorItemRecycleview.getDireccion()+")")).setIcon( BitmapDescriptorFactory.fromBitmap( resource ) );
+
+
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                                                            super.onLoadFailed(e, errorDrawable);
+                                                                            Toast.makeText(MainActivity_interface_principal.this,"Error al carga imagen",Toast.LENGTH_SHORT).show();
+                                                                        }}
+                                                                    );
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+
                                         }}}}
+
                                 catch (Exception e) {e.printStackTrace(); }
 
 

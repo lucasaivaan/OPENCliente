@@ -877,7 +877,7 @@
                             android:id="@+id/textView6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/md_deep_orange_500"
+                            android:background="@color/md_red_400"
                             android:text="@string/ofertas"
                             android:textAlignment="center"
                             android:textAllCaps="true"

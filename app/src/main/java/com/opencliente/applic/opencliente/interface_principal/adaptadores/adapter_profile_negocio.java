@@ -14,34 +14,36 @@ public class adapter_profile_negocio {
     public adapter_profile_negocio() {
     }
 
-    String nombre_negocio;
-    String pais;
-    String direccion;
-    String codigo_postal;
-    String provincia;
-    String ciudad;
-    String telefono;
-    String categoria;
-    String sitio_web;
-    String id;
-    String descripcion;
-    GeoPoint geopoint;
+    private String nombre_negocio;
+    private String pais;
+    private String direccion;
+    private String codigo_postal;
+    private String provincia;
+    private String ciudad;
+    private String telefono;
+    private String categoria;
+    private String categoria_nombre;
+    private String sitio_web;
+    private String id;
+    private String descripcion;
+    private GeoPoint geopoint;
 
-    String color="";
-    String cardlayout="default";
-    String imagen_perfil="default";
+    private String color="";
+    private String cardlayout="default";
+    private String imagen_perfil="default";
 
-    Drawable icon;
-    Boolean mensaje_nuevo=false; //el esta es por defecto "false"
-    String ultimo_mensaje="";
-
-
-
+    private Drawable icon;
+    private Boolean mensaje_nuevo=false; //el esta es por defecto "false"
+    private String ultimo_mensaje="";
 
 
 
 
 
+
+
+    public String getCategoria_nombre() { return categoria_nombre; }
+    public void setCategoria_nombre(String categoria_nombre) { this.categoria_nombre = categoria_nombre; }
 
     public String getUltimo_mensaje() { return ultimo_mensaje; }
     public void setUltimo_mensaje(String ultimo_mensaje) { this.ultimo_mensaje = ultimo_mensaje; }

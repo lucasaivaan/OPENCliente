@@ -52,67 +52,30 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
         if(listMensaje.get(position).getType_mensaje().equals("1")){
 
             // Emisor
-            holder.getNombre_2().setText(listMensaje.get(position).getNombre());
             holder.getMensaje_2().setText(listMensaje.get(position).getMensaje());
 
             holder.getLinearLayoutReceptor_1().setVisibility(View.GONE);
 
-            //Imagen
-            Context context =  holder.getFotoMensajePerfil1_1().getContext();
-
-            if(listMensaje.get(position).getUrlfotoPerfil().equals("default")){
-                int id= icono.getIconLogoCategoria(listMensaje.get(position).getCategoria(),context);
-                holder.getFotoMensajePerfil2_2().setImageResource(id);
-
-            }else{
-                //-Carga la imagen de perfil
-                Glide.with(c).load(listMensaje.get(position).getUrlfotoPerfil()).into(holder.getFotoMensajePerfil2_2());
-
-            }
-
             // hora
             Date codigoHora = listMensaje.get(position).getTimestamp();
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a  d MMM yyyy");//a pm o am
             holder.getHora_2().setText(sdf.format(codigoHora.getTime()));
 
         }else if(listMensaje.get(position).getType_mensaje().equals("2")){
 
             // Receptor
-            if(!listMensaje.get(position).getUrlfotoPerfil().equals("default") && !listMensaje.get(position).getUrlfotoPerfil().equals("")){
-
-                // Nombre y mensaje
-                holder.getNombre_1().setText(listMensaje.get(position).getNombre());
-                holder.getMensaje_1().setText(listMensaje.get(position).getMensaje());
-
-                holder.getLinearLayoutEmisor_2().setVisibility(View.GONE);
-
-                //-Carga la imagen de perfil
-                Glide.with(c).load(listMensaje.get(position).getUrlfotoPerfil()).into(holder.getFotoMensajePerfil1_1());
-
-                // hora
-                Date codigoHora = listMensaje.get(position).getTimestamp();
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
-                holder.getHora_1().setText(sdf.format(codigoHora.getTime()));
-
-            }else{
-                // Nombre y mensaje
-                holder.getNombre_1().setText(listMensaje.get(position).getNombre());
-                holder.getMensaje_1().setText(listMensaje.get(position).getMensaje());
-
-                holder.getLinearLayoutEmisor_2().setVisibility(View.GONE);
 
 
-                //-Imagen por defecto
-                holder.getFotoMensajePerfil1_1().setImageResource(R.mipmap.ic_user2);
+            // mensaje
+            holder.getMensaje_1().setText(listMensaje.get(position).getMensaje());
 
-                // hora
-                Date codigoHora = listMensaje.get(position).getTimestamp();
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
-                holder.getHora_1().setText(sdf.format(codigoHora.getTime()));
+            holder.getLinearLayoutEmisor_2().setVisibility(View.GONE);
 
-            }
+            // hora
+            Date codigoHora = listMensaje.get(position).getTimestamp();
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a  d MMM yyyy");//a pm o am
+            holder.getHora_1().setText(sdf.format(codigoHora.getTime()));
 
-            //holder.getMensaje_1().setVisibility(View.VISIBLE);
         }
 
     }

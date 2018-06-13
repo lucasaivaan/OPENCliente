@@ -18,6 +18,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_categoria_Negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 
@@ -145,9 +146,32 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                             // Imagen de perfil del negocio
                             if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
-                                int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
-                                adapterProfileNegocio.setIcon(context.getResources().getDrawable(id));//Asigna el icono correspondiente del negocio
-                                holder.profile_image.setImageDrawable(adapterProfileNegocio.getIcon());
+                                //Asignacion de icono de la categoria
+                                // Firebase DB categorias
+                                FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                                firestore_categoria.collection( context.getString(R.string.DB_APP) ).document( adapterProfileNegocio.getPais().toUpperCase() ).collection( context.getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adapterProfileNegocio.getCategoria() )
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot documentSnapshot=task.getResult();
+                                            if( documentSnapshot.exists() ){
+
+                                                // adapter
+                                                adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+                                                // Glide Descarga de imagen
+                                                Glide.with(context.getApplicationContext())
+                                                        .load(categoriaNegocio.getLogo())
+                                                        .fitCenter()
+                                                        .centerCrop()
+                                                        .into(holder.profile_image);
+
+
+                                            }
+                                        }
+                                    }
+                                });
 
                             }else{
                                 Glide.clear(holder.profile_image);

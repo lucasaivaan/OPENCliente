@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@color/md_orange_300"
         android:elevation="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -23,12 +24,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
             android:text="@string/tienes_pedidos_pendiantes"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/cardview_light_background"
             android:textSize="18sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/fab"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="anim_productos.json"
+            app:lottie_imageAssetsFolder="assets"
+            app:lottie_loop="true" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +74,8 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="2dp"
                 android:background="@mipmap/not_no_internet"
-                android:backgroundTint="@color/cardview_light_background" />
+                android:backgroundTint="@color/cardview_light_background"
+                android:contentDescription="TODO" />
         </LinearLayout>
 
     </LinearLayout>
@@ -72,7 +83,7 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/fondo_blanco_gris">
 

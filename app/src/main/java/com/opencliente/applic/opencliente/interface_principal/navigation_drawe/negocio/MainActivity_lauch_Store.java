@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,6 +39,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,6 +48,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,6 +73,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 import com.opencliente.applic.opencliente.R;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_categoria_Negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_horario;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_ofertas_negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_clientes;
@@ -436,11 +442,32 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                             //imagen del negocio
                             if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
-                                int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),MainActivity_lauch_Store.this);
-                                imageView_iconStrore.setImageDrawable(getResources().getDrawable(id)); // icono
+                                //Asignacion de icono de la categoria
+                                // Firebase DB categorias
+                                FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                                firestore_categoria.collection( getString(R.string.DB_APP) ).document( adapterProfileNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adapterProfileNegocio.getCategoria() )
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot documentSnapshot=task.getResult();
+                                            if( documentSnapshot.exists() ){
 
-                                //appBarLayoutL.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color appBar
-                                //lTolbar.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color toolBAr
+                                                // adapter
+                                                adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+                                                // Glide Descarga de imagen
+                                                Glide.with(getBaseContext())
+                                                        .load(categoriaNegocio.getLogo())
+                                                        .fitCenter()
+                                                        .centerCrop()
+                                                        .into(imageView_iconStrore);
+
+
+                                            }
+                                        }
+                                    }
+                                });
 
                             }else{
                                 //-Carga la imagen de perfil
@@ -485,8 +512,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
             GeoPoint geoPoint=new GeoPoint(Latitud,Longitud);
 
-            colRefDB.whereEqualTo("geopoint",geoPoint).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            colRefDB.whereEqualTo("geopoint",geoPoint).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
@@ -505,12 +531,44 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                                     notificacionMensajeNuevo(IdBusiness);
                                     ComprobarProductosNegocio(IdBusiness);
 
-                                    //Referencia drawable mediante un string
-                                    Context context = imageView_iconStrore.getContext();
-                                    int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
-                                    imageView_iconStrore.setImageDrawable(getResources().getDrawable(id));
+                                    // ToolBar
+                                    //imagen del negocio
+                                    if(adapterProfileNegocio.getImagen_perfil().equals("default")){
+
+                                        //Asignacion de icono de la categoria
+                                        // Firebase DB categorias
+                                        FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                                        firestore_categoria.collection( getString(R.string.DB_APP) ).document( adapterProfileNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adapterProfileNegocio.getCategoria() )
+                                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if(task.isSuccessful()){
+                                                    DocumentSnapshot documentSnapshot=task.getResult();
+                                                    if( documentSnapshot.exists() ){
+
+                                                        // adapter
+                                                        adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+                                                        // Glide Descarga de imagen
+                                                        Glide.with(getBaseContext())
+                                                                .load(categoriaNegocio.getLogo())
+                                                                .fitCenter()
+                                                                .centerCrop()
+                                                                .into(imageView_iconStrore);
+
+
+                                                    }
+                                                }
+                                            }
+                                        });
+
+                                    }else{
+                                        //-Carga la imagen de perfil
+                                        Glide.with(MainActivity_lauch_Store.this).load(adapterProfileNegocio.getImagen_perfil()).into(imageView_iconStrore);
+                                    }
+
+                                    // nombre
                                     textView_name_store.setText(adapterProfileNegocio.getNombre_negocio());
-                                    //lTolbar.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor())); // color toolBAr
 
                                     //profile
                                     textViewPais.setText(adapterProfileNegocio.getPais());
@@ -619,7 +677,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         });
 
     }
-    public  void ComprobarProductosNegocio(String ID_NEGOCIO){
+    public void ComprobarProductosNegocio(String ID_NEGOCIO){
         CollectionReference collectionReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS));
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -635,7 +693,6 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
             }
         });
     }
-
     public void notificacionMensajeNuevo(String idBusiness){
 
         DocumentReference documentSnapshot=db.collection(  getString(R.string.DB_CLIENTES)  ).document(firebaseUser.getUid()).collection(  getString(R.string.DB_NEGOCIOS)  ).document(idBusiness);
@@ -1234,8 +1291,11 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                     adapterHorarios.removeAll(adapterHorarios);
 
                     for(DocumentSnapshot doc:task.getResult()){
+
+                        // Control de visibilidad
                         notific_no_hors.setVisibility(View.GONE);
                         anim_loading.setVisibility(View.GONE);
+
                         //---Carga todos los datos en el adaptador de Servicios al adaptador
                         adapter_horario adapterServicios = doc.toObject(adapter_horario.class);
                         adapterHorarios.add(adapterServicios);
@@ -1245,7 +1305,7 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
 
                 if(adapterHorarios.size() == 0){
                     notific_no_hors.setVisibility(View.VISIBLE);
-                    anim_loading.setVisibility(View.VISIBLE);
+                    anim_loading.setVisibility(View.GONE);
                 }
 
             }
@@ -1615,6 +1675,8 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
         // Add a marker in Sydney and move the camera
         mMap.addMarker(new MarkerOptions().position(sydney));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_maps));
+
 
         //LoadBusinessMakerMaps();
     }
@@ -1630,19 +1692,57 @@ public class MainActivity_lauch_Store extends AppCompatActivity implements OnMap
                 }
 
                 if(documentSnapshot.exists()){
+
                     //---direccion donde se encuentras  los datos de los negocios
-                    adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
+                    final adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
 
-                    ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                    int id= icono.getIconLocationCategoria(ContructorItemRecycleview.getCategoria(),MainActivity_lauch_Store.this);
-                    BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
-                    //---Crea los Makers
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude()))).setIcon(icon);
-                    //Posiciona la camara en la ubicacion del negocio
-                    LatLng sydney = new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-                    lottieAnimationView_load.setVisibility(View.GONE);
+                    // Firebase
+                    FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                    firestore_categoria.collection( getString(R.string.DB_APP) ).document( ContructorItemRecycleview.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( ContructorItemRecycleview.getCategoria() )
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot=task.getResult();
+                                if( documentSnapshot.exists() ){
+
+                                    // adapter
+                                    adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+
+                                    // Glide Descarga de iamgen
+                                    Glide.with(getBaseContext())
+                                            .load(categoriaNegocio.getIcon_location())
+                                            .asBitmap()
+                                            .fitCenter()
+                                            .override(70,70)
+                                            .into(new SimpleTarget<Bitmap>(70,70) {
+                                                @Override
+                                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                                                    ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
+                                                    //---Crea los Makers
+                                                    mMap.addMarker(new MarkerOptions().position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude()))).setIcon(  BitmapDescriptorFactory.fromBitmap( resource ) );
+                                                    //Posiciona la camara en la ubicacion del negocio
+                                                    LatLng sydney = new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude());
+                                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+                                                    lottieAnimationView_load.setVisibility(View.GONE);
+
+                                                }
+
+                                                @Override
+                                                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                                    super.onLoadFailed(e, errorDrawable);
+                                                    Toast.makeText(MainActivity_lauch_Store.this,"Error al carga imagen",Toast.LENGTH_SHORT).show();
+                                                }}
+                                            );
+
+                                }
+                            }
+                        }
+                    });
                 }
 
 

@@ -36,6 +36,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 import com.opencliente.applic.opencliente.R;
 import com.opencliente.applic.opencliente.interface_principal.MainActivity_interface_principal;
+import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_categoria_Negocio;
 import com.opencliente.applic.opencliente.interface_principal.adaptadores.adapter_profile_negocio;
 import com.opencliente.applic.opencliente.interface_principal.metodos_funciones.icono;
 import com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.adaptador.AdapterMensajes;
@@ -134,9 +135,34 @@ public class Chat_view extends AppCompatActivity {
 
                         //Imagen del negocio
                         if(aPerfilNegocio.getImagen_perfil().equals("default")){
+
                             // icono
-                            int id_icon= icono.getIconLogoCategoria(aPerfilNegocio.getCategoria(),Chat_view.this);
-                            fotoPerfil.setBackgroundResource(id_icon);
+                            // Firebase DB categorias
+                            FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                            firestore_categoria.collection( getString(R.string.DB_APP) ).document( aPerfilNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( aPerfilNegocio.getCategoria() )
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        DocumentSnapshot documentSnapshot=task.getResult();
+                                        if( documentSnapshot.exists() ){
+
+                                            // adapter
+                                            adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+                                            // Glide Descarga de imagen
+                                            Glide.with(getBaseContext())
+                                                    .load(categoriaNegocio.getLogo())
+                                                    .fitCenter()
+                                                    .centerCrop()
+                                                    .into(fotoPerfil);
+
+
+                                        }
+                                    }
+                                }
+                            });
+
                         }else{
                             //-Carga la imagen de perfil
                             Glide.with(Chat_view.this).load(aPerfilNegocio.getImagen_perfil()).into(fotoPerfil);
@@ -198,12 +224,10 @@ public class Chat_view extends AppCompatActivity {
                     Map<String , Object> dataClient=new HashMap<>();
                     dataClient.put( getString(R.string.DB_mensaje) ,txtMensaje.getText().toString());
                     dataClient.put( getString(R.string.DB_timestamp) , FieldValue.serverTimestamp());
-                    dataClient.put( getString(R.string.DB_urlfotoPerfil) ,fotoPerfilCadena);
                     dataClient.put( getString(R.string.DB_type_mensaje) ,"2");
-                    dataClient.put( getString(R.string.DB_nombre) ,nombreCliente);
 
 
-
+                    // Firebase
                     AddMensajeChatCliente.collection(  getString(R.string.DB_CHAT)  ).document().set(dataClient);
                     AddMensajeChatNegocio.collection(  getString(R.string.DB_CHAT)  ).document().set(dataClient);
 

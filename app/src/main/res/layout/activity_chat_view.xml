@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/img_fondo_chat"
     android:orientation="vertical"
     tools:context="com.opencliente.applic.opencliente.interface_principal.navigation_drawe.Chat.Chat_view">
 
@@ -36,7 +35,9 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:src="@mipmap/ic_user2" />
+                    android:src="@mipmap/ic_user2"
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="2dp" />
 
                 <TextView
                     android:id="@+id/nombre"
@@ -96,7 +97,7 @@
             android:layout_weight="1"
             android:background="@drawable/edittextview_style2"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:elevation="6dp"
+            android:elevation="5dp"
             android:text="@string/enviar"
             android:textColor="@color/cardview_light_background" />
 

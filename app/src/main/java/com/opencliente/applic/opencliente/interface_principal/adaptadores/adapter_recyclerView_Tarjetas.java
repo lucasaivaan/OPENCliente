@@ -79,10 +79,32 @@ public class adapter_recyclerView_Tarjetas extends RecyclerView.Adapter<adapter_
                         // Imagen de perfil del negocio
                         if(adapterProfileNegocio.getImagen_perfil().equals("default")){
 
-                            int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
-                            adapterProfileNegocio.setIcon(context.getResources().getDrawable(id));//Asigna el icono correspondiente del negocio
-                            holder.dato3.setImageDrawable(adapterProfileNegocio.getIcon());
+                            //Asignacion de icono de la categoria
+                            // Firebase DB categorias
+                            FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                            firestore_categoria.collection( context.getString(R.string.DB_APP) ).document( adapterProfileNegocio.getPais().toUpperCase() ).collection( context.getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adapterProfileNegocio.getCategoria() )
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        DocumentSnapshot documentSnapshot=task.getResult();
+                                        if( documentSnapshot.exists() ){
 
+                                            // adapter
+                                            adapter_categoria_Negocio categoriaNegocio=documentSnapshot.toObject(adapter_categoria_Negocio.class);
+
+                                            // Glide Descarga de imagen
+                                            Glide.with(context.getApplicationContext())
+                                                    .load(categoriaNegocio.getLogo())
+                                                    .fitCenter()
+                                                    .centerCrop()
+                                                    .into( holder.dato3);
+
+
+                                        }
+                                    }
+                                }
+                            });
                         }else{
                             Glide.clear(holder.dato3);
                             Context context=holder.dato3.getContext();

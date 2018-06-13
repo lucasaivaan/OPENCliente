@@ -8,6 +8,7 @@
     <string name="DB_APP">APP</string>
     <string name="DB_NEGOCIOS">NEGOCIOS</string>
     <string name="DB_INFORMACION">INFORMACION</string>
+    <string name="DB_CATEGORIAS_NEGOCIOS">CATEGORIAS_NEGOCIOS</string>
     <string name="DB_DIRECCIONES">DIRECCIONES</string>
     <string name="DB_PEDIDOS">PEDIDOS</string>
 

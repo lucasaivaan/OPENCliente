@@ -21,84 +21,53 @@
             android:id="@+id/linealLayout_receptor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="100dp"
+            android:gravity="end"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintHorizontal_bias="0.0"
             cardview:layout_constraintLeft_toLeftOf="parent"
             cardview:layout_constraintStart_toStartOf="parent"
             cardview:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fotoPerfilMensaje_receptor"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="1dp"
-                android:elevation="3dp"
-                android:src="@mipmap/ic_user2"
-                cardview:civ_border_color="@color/cardview_light_background"
-                cardview:civ_border_width="3dp"
-                cardview:civ_circle_background_color="@color/cardview_light_background" />
-
             <android.support.v7.widget.CardView
-                android:layout_width="310dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/fotoPerfilMensaje_receptor"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="30dp"
+                android:layout_margin="5dp"
                 android:layout_marginTop="5dp"
                 android:elevation="0dp"
                 android:visibility="visible"
                 cardview:cardBackgroundColor="@color/cardview_light_background"
                 cardview:cardCornerRadius="20dp"
-                cardview:cardElevation="2dp">
+                cardview:cardElevation="3dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:paddingEnd="40dp"
-                    android:paddingStart="5dp">
+                    android:layout_margin="10dp"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/horaMensaje_1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
-
-                        <TextView
-                            android:id="@+id/horaMensaje_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="00:00"
-                            android:textAlignment="viewStart"
-                            android:textAllCaps="true"
-                            android:textColor="@color/texto_secundario"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:id="@+id/nombreMensaje_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="nombre"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/texto_principal"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        android:text=" 00:00 AM 1 jul 2016"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="true"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="9sp" />
 
                     <TextView
                         android:id="@+id/mensajeMensaje_1"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="Hola"
+                        android:text="hola como estas ?"
                         android:textAlignment="textStart"
-                        android:textColor="@color/texto_secundario"
+                        android:textColor="@color/cardview_dark_background"
                         android:visibility="visible" />
 
                 </LinearLayout>
@@ -110,104 +79,54 @@
             android:id="@+id/linealLayout_emisor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:gravity="left|center"
+            android:layout_marginEnd="100dp"
+            android:gravity="start"
             android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fotoPerfilMensaje_emisor"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="1dp"
-                android:elevation="3dp"
-                android:src="@mipmap/logo_kiosco"
-                cardview:civ_border_color="@color/cardview_light_background"
-                cardview:civ_border_width="3dp"
-                cardview:civ_circle_background_color="@color/cardview_light_background"
-                cardview:layout_constraintBottom_toBottomOf="parent"
-                cardview:layout_constraintLeft_toLeftOf="parent"
-                tools:ignore="MissingConstraints,NotSibling" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
-                android:layout_width="310dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="33dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="5dp"
                 cardview:cardBackgroundColor="@color/cardview_light_background"
                 cardview:cardCornerRadius="20dp"
-                cardview:cardElevation="2dp">
+                cardview:cardElevation="3dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="40dp">
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/horaMensaje_2"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/nombreMensaje_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="right"
-                                android:layout_weight="1"
-                                android:text="nombre"
-                                android:textColor="@color/texto_principal"
-                                android:textStyle="bold"
-                                cardview:layout_constraintBottom_toBottomOf="parent"
-                                cardview:layout_constraintEnd_toEndOf="parent"
-                                cardview:layout_constraintRight_toRightOf="parent"
-                                cardview:layout_constraintStart_toEndOf="@+id/horaMensaje_2"
-                                cardview:layout_constraintTop_toTopOf="parent"
-                                cardview:layout_constraintVertical_bias="0.0" />
-
-                            <TextView
-                                android:id="@+id/horaMensaje_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="00:00"
-                                android:textAlignment="viewEnd"
-                                android:textAllCaps="true"
-                                android:textColor="@color/texto_secundario"
-                                android:textSize="10sp"
-                                cardview:layout_constraintBottom_toBottomOf="parent"
-                                cardview:layout_constraintDimensionRatio=""
-                                cardview:layout_constraintEnd_toStartOf="@+id/nombreMensaje_2"
-                                cardview:layout_constraintHorizontal_bias="0.086"
-                                cardview:layout_constraintLeft_toLeftOf="parent"
-                                cardview:layout_constraintStart_toStartOf="parent"
-                                cardview:layout_constraintTop_toTopOf="parent"
-                                cardview:layout_constraintVertical_bias="0.0" />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        android:text=" 00:00 AM 1 jul 2016"
+                        android:textAlignment="viewEnd"
+                        android:textAllCaps="true"
+                        android:textColor="@color/texto_secundario"
+                        android:textSize="9sp"
+                        cardview:layout_constraintBottom_toBottomOf="parent"
+                        cardview:layout_constraintDimensionRatio=""
+                        cardview:layout_constraintEnd_toStartOf="@+id/nombreMensaje_2"
+                        cardview:layout_constraintHorizontal_bias="0.086"
+                        cardview:layout_constraintLeft_toLeftOf="parent"
+                        cardview:layout_constraintStart_toStartOf="parent"
+                        cardview:layout_constraintTop_toTopOf="parent"
+                        cardview:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/mensajeMensaje_2"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Hola"
+                        android:text="hola"
                         android:textAlignment="viewStart"
-                        android:textColor="@color/texto_secundario"
+                        android:textColor="@color/cardview_dark_background"
                         android:visibility="visible" />
 
                 </LinearLayout>

@@ -98,10 +98,6 @@ public class MainActivity_negocios_Lista_Pedidos extends AppCompatActivity {
                                 // the user clicked on options[which]
                                 switch (which){
                                     case 0:
-
-                                        break;
-                                    case 1:
-
                                         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(MainActivity_negocios_Lista_Pedidos.this);
                                         dialogo1.setMessage(R.string.pregunta_cancelar_pedido);
                                         dialogo1.setCancelable(false);
