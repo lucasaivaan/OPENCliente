@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
+    android:layout_margin="5dp"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="1dp">
+    app:cardCornerRadius="2dp"
+    app:cardElevation="3dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="85dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -19,8 +20,11 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="5dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:onClick="ButtonADDFothoService"
             android:src="@color/cardview_shadow_start_color"
+            android:visibility="visible"
             app:civ_border_color="#f5f5f5"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,8 +34,8 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,11 +47,10 @@
                 android:id="@+id/textView_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:text="@string/titulo"
                 android:textAllCaps="true"
                 android:textColor="@color/texto_principal"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView_decripcion"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -41,4 +41,6 @@
     <color name="color_pizzeria">#ff9933</color>
     <color name="color_verduleria">#339933</color>
     <color name="texto_terciario2">#e0e0e0</color>
+    <color name="color_divisor">#1f000000</color>
+    <color name="cardview_tono_1">#04000000</color>
 </resources>

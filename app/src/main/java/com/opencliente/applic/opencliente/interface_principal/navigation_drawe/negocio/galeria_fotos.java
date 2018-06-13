@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,6 +60,10 @@ public class galeria_fotos extends AppCompatActivity {
         setContentView(R.layout.activity_galeria_fotos);
         setTitle(getResources().getString(R.string.fotos).toUpperCase());
 
+        //---introduce button de retroceso
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         //--- Obtenemos los datos pasados por parametro
         ID_NEGOCIO = getIntent().getExtras().getString("ID_NEGOCIO");
 
@@ -70,6 +75,19 @@ public class galeria_fotos extends AppCompatActivity {
             cargar_fotos(ID_NEGOCIO);
         }
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //-Button retroceso
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void ViewFoto( String sUrlFoto, String sComentario){

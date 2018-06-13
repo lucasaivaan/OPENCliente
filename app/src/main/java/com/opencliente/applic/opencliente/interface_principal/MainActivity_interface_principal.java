@@ -143,6 +143,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     protected LottieAnimationView animation_view_load;
 
     private LinearLayout layout_noti_pedido;
+    private TextView textView_noti_num_pedidos;
     private LinearLayout LinealLayout_ContentFond_Store;
     private CardView toolbar_cardview_seach;
     private  EditText editText_Toolbar_Seach;
@@ -350,6 +351,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
         //Reference
         layout_noti_pedido=(LinearLayout) findViewById(R.id.layout_noti_pedido);
+        textView_noti_num_pedidos=(TextView) findViewById(R.id.textView_noti_num_pedidos);
         layout_noti_pedido.setVisibility(View.GONE);
         LinealLayout_ContentFond_Store=(LinearLayout) findViewById(R.id.LinealLayout_ContentFond_Store);
         tToolbsrTituloTarjetas =(TextView) findViewById(R.id.textView14);
@@ -729,6 +731,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     public void onEvent(@Nullable QuerySnapshot task,@Nullable FirebaseFirestoreException e) {
                         // Control de visivilidad
                         layout_noti_pedido.setVisibility(View.GONE);
+
+                        // Numero de pedidos
+                        textView_noti_num_pedidos.setText( String.valueOf(task.size()) );
 
                         for (DocumentSnapshot doc : task) {
                             if (doc.exists()) {

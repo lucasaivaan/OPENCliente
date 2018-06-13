@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/img_fondo_clientes"
+    android:background="@color/cardview_light_background"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -295,16 +295,17 @@
                     android:id="@+id/cardview_descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="7dp"
+                    android:layout_marginBottom="1dp"
+                    android:elevation="3dp"
                     android:visibility="visible"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp"
+                    app:cardElevation="3dp"
                     map:cardBackgroundColor="@color/cardview_light_background">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
                         <TextView
                             android:id="@+id/textView27"
@@ -324,7 +325,7 @@
                             android:layout_marginStart="5dp"
                             android:text='""'
                             android:textAlignment="center"
-                            android:textColor="@color/texto_secundario" />
+                            android:textColor="@color/texto_terciario" />
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
@@ -333,10 +334,9 @@
                     android:id="@+id/informacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:elevation="3dp"
                     android:visibility="visible"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="3dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -361,9 +361,9 @@
                                     android:layout_width="15sp"
                                     android:layout_height="15sp"
                                     android:adjustViewBounds="false"
-                                    android:backgroundTint="@color/colorAccent"
-                                    android:cropToPadding="false"
-                                    app:srcCompat="@mipmap/ic_place" />
+                                    android:background="@mipmap/ic_place"
+                                    android:backgroundTint="@color/texto_principal"
+                                    android:cropToPadding="false" />
 
                                 <TextView
                                     android:id="@+id/textView"
@@ -371,7 +371,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/informacion"
                                     android:textAlignment="center"
-                                    android:textColor="@color/cardview_dark_background"
+                                    android:textColor="@color/texto_principal"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -389,6 +389,7 @@
                                     android:text="@string/ubicacion"
                                     android:textAlignment="viewStart"
                                     android:textAllCaps="false"
+                                    android:textColor="@color/texto_secundario"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -400,7 +401,7 @@
                                     android:text="@string/ciudad"
                                     android:textAlignment="textEnd"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -410,7 +411,7 @@
                                     android:text="@string/provincia"
                                     android:textAlignment="textEnd"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -420,7 +421,7 @@
                                     android:text="@string/pais_region"
                                     android:textAlignment="textEnd"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
 
                             </LinearLayout>
@@ -439,6 +440,7 @@
                                     android:text="@string/direccion"
                                     android:textAlignment="viewStart"
                                     android:textAllCaps="false"
+                                    android:textColor="@color/texto_secundario"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -450,7 +452,7 @@
                                     android:text="@string/direccion"
                                     android:textAlignment="textEnd"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
 
                             </LinearLayout>
@@ -468,6 +470,7 @@
                                     android:text="@string/codigo_postal"
                                     android:textAlignment="viewStart"
                                     android:textAllCaps="false"
+                                    android:textColor="@color/texto_secundario"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -479,22 +482,31 @@
                                     android:text="@string/codigo_postal"
                                     android:textAlignment="textEnd"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <fragment
-                            android:id="@+id/map"
-                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            map:layout_constraintBottom_toBottomOf="parent"
-                            map:layout_constraintEnd_toEndOf="parent"
-                            map:layout_constraintStart_toStartOf="parent"
-                            map:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-                            tools:context=".interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store" />
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="2dp">
+
+                            <fragment
+                                android:id="@+id/map"
+                                android:name="com.google.android.gms.maps.SupportMapFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                map:layout_constraintBottom_toBottomOf="parent"
+                                map:layout_constraintEnd_toEndOf="parent"
+                                map:layout_constraintStart_toStartOf="parent"
+                                map:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+                                tools:context=".interface_principal.navigation_drawe.negocio.MainActivity_lauch_Store" />
+                        </android.support.v7.widget.CardView>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -515,7 +527,7 @@
                                     android:layout_height="15sp"
                                     android:layout_gravity="center_horizontal|center"
                                     android:background="@mipmap/ic_phone"
-                                    android:backgroundTint="@color/cardview_dark_background" />
+                                    android:backgroundTint="@color/texto_principal" />
 
                                 <TextView
                                     android:id="@+id/textView9"
@@ -525,7 +537,7 @@
                                     android:gravity="center"
                                     android:text="@string/contacto"
                                     android:textAlignment="center"
-                                    android:textColor="@color/cardview_dark_background"
+                                    android:textColor="@color/texto_principal"
                                     android:textSize="18sp" />
                             </LinearLayout>
 
@@ -541,6 +553,7 @@
                                     android:layout_weight="1"
                                     android:text="@string/telefono_principal"
                                     android:textAlignment="viewStart"
+                                    android:textColor="@color/texto_secundario"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -551,7 +564,7 @@
                                     android:layout_weight="1"
                                     android:text="@string/telefono_no_disponible"
                                     android:textAlignment="viewEnd"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -567,6 +580,7 @@
                                     android:layout_weight="1"
                                     android:text="@string/sitio_web"
                                     android:textAlignment="viewStart"
+                                    android:textColor="@color/texto_secundario"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -577,7 +591,7 @@
                                     android:layout_weight="1"
                                     android:text="@string/sitio_web_no_disponible"
                                     android:textAlignment="viewEnd"
-                                    android:textColor="@color/texto_secundario"
+                                    android:textColor="@color/texto_terciario"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -587,36 +601,55 @@
 
                 </android.support.v7.widget.CardView>
 
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/edittextview_style2"
-                    android:elevation="0dp"
-                    android:onClick="ButtonHorarios"
-                    android:text="@string/ver_horarios"
-                    android:textColor="@color/cardview_light_background" />
 
-                <Button
-                    android:id="@+id/button7"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/Botones"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/edittextview_style2"
-                    android:elevation="2dp"
-                    android:onClick="Button_Productos"
-                    android:text="@string/ver_productos"
-                    android:textColor="@color/cardview_light_background" />
+
+
+                    android:layout_height="match_parent"
+                    android:elevation="3dp"
+                    app:cardElevation="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="3dp"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:id="@+id/button3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/edittextview_style2"
+                            android:elevation="0dp"
+                            android:onClick="ButtonHorarios"
+                            android:text="@string/ver_horarios"
+                            android:textColor="@color/cardview_light_background" />
+
+                        <Button
+                            android:id="@+id/button7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/edittextview_style2"
+                            android:elevation="2dp"
+                            android:onClick="Button_Productos"
+                            android:text="@string/ver_productos"
+                            android:textColor="@color/cardview_light_background" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardview_Galeria"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="7dp"
+                    android:elevation="3dp"
                     android:visibility="visible"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="3dp">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -686,7 +719,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
                             <android.support.v7.widget.CardView
                                 android:id="@+id/card_foto1"
@@ -696,7 +730,7 @@
                                 android:layout_weight="1"
                                 android:elevation="0dp"
                                 app:cardCornerRadius="5dp"
-                                app:cardElevation="2dp">
+                                app:cardElevation="3dp">
 
                                 <ImageView
                                     android:id="@+id/button_galary_1"
@@ -717,7 +751,7 @@
                                 android:elevation="0dp"
                                 android:visibility="visible"
                                 app:cardCornerRadius="5dp"
-                                app:cardElevation="2dp">
+                                app:cardElevation="3dp">
 
                                 <ImageView
                                     android:id="@+id/button_galary_2"
@@ -738,7 +772,7 @@
                                 android:layout_weight="1"
                                 android:visibility="visible"
                                 app:cardCornerRadius="5dp"
-                                app:cardElevation="2dp">
+                                app:cardElevation="3dp">
 
                                 <ImageView
                                     android:id="@+id/button_galary_3"
@@ -759,7 +793,7 @@
                                 android:layout_weight="1"
                                 android:visibility="visible"
                                 app:cardCornerRadius="5dp"
-                                app:cardElevation="2dp">
+                                app:cardElevation="3dp">
 
                                 <ImageView
                                     android:id="@+id/button_galary_4"
@@ -773,13 +807,13 @@
 
                             <android.support.v7.widget.CardView
                                 android:id="@+id/card_foto5"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:visibility="visible"
                                 app:cardCornerRadius="5dp"
-                                app:cardElevation="2dp">
+                                app:cardElevation="3dp">
 
                                 <ImageView
                                     android:id="@+id/button_galary_5"
@@ -793,14 +827,11 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <View
+                            android:id="@+id/divider14"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/cardview_shadow_start_color"
-                            android:orientation="vertical">
-
-
-                        </LinearLayout>
+                            android:background="@color/texto_terciario2" />
 
                         <TextView
                             android:id="@+id/textView22"
@@ -810,6 +841,7 @@
                             android:onClick="Button_GaleriaFotos"
                             android:text="@string/ver_fotos"
                             android:textAlignment="center"
+                            android:textColor="@color/cardview_dark_background"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -818,27 +850,28 @@
                     android:id="@+id/Card_Service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_weight="30.46"
                     android:visibility="visible"
-                    app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    app:cardBackgroundColor="@color/cardview_tono_1"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
                         <TextView
                             android:id="@+id/textView4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/md_blue_300"
+                            android:layout_margin="5dp"
+                            android:elevation="0dp"
                             android:text="@string/servicios"
                             android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textColor="@color/cardview_light_background"
+                            android:textColor="@color/texto_principal"
                             android:textSize="24sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:layout_editor_absoluteY="5dp" />
@@ -862,26 +895,28 @@
                     android:id="@+id/Card_Oferta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:elevation="2dp"
                     android:visibility="visible"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    app:cardBackgroundColor="@color/cardview_tono_1"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
                         <TextView
                             android:id="@+id/textView6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/md_red_400"
+                            android:layout_margin="5dp"
+                            android:elevation="0dp"
                             android:text="@string/ofertas"
                             android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textColor="@color/cardview_light_background"
+                            android:textColor="@color/texto_principal"
                             android:textSize="24sp" />
 
                         <android.support.v7.widget.RecyclerView
@@ -903,10 +938,11 @@
                     android:id="@+id/cardview_muro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
+                    android:layout_margin="2dp"
+                    android:elevation="3dp"
                     app:cardBackgroundColor="@color/cardview_light_background"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp">
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="3dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -914,15 +950,15 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+
                         <TextView
                             android:id="@+id/textView30"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
                             android:text="@string/Reseñas"
                             android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textColor="@color/cardview_light_background"
+                            android:textColor="@color/cardview_dark_background"
                             android:textSize="24sp" />
 
                         <LinearLayout
@@ -966,7 +1002,7 @@
                                 android:padding="10dp"
                                 android:textColor="@color/texto_secundario"
 
-                                android:textColorHint="@color/texto_principal" />
+                                android:textColorHint="@color/texto_terciario" />
 
                             <Button
                                 android:id="@+id/btnEnviar"
@@ -981,6 +1017,7 @@
                                 android:text="@string/publicar"
                                 android:textColor="@color/cardview_light_background" />
                         </LinearLayout>
+
 
                         <TextView
                             android:id="@+id/reseña_not_sin_reseña"
